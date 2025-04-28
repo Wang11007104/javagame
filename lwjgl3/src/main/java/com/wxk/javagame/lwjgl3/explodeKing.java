@@ -26,7 +26,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
 
-public class SkyWizard extends ApplicationAdapter {
+public class explodeKing extends ApplicationAdapter {
     private SpriteBatch batch;
     private BitmapFont font;
     private Texture firstscreen;

@@ -58,7 +58,7 @@ public class autoMonster extends movingObj{
                 if(y<-150){
                     vy=0;
                     showImage=false;
-                    SkyWizard.allObjs.remove(this);
+                    explodeKing.allObjs.remove(this);
                     return;
                 }
         }
@@ -72,7 +72,7 @@ public class autoMonster extends movingObj{
             if(y>790){
                 vy=0;
                 showImage=false;
-                SkyWizard.allObjs.remove(this);
+                explodeKing.allObjs.remove(this);
                 return;
             }
     }

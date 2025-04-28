@@ -52,15 +52,14 @@ public class movingObj {
         }
 
         
-       // for(movingObj obj:SkyWizard.allObjs){  //loop through SkyWizard下的allObjs
-           // System.out.println(this==obj);
+      
 
-           int index = SkyWizard.allObjs.indexOf(this);
+           int index = explodeKing.allObjs.indexOf(this);
            //System.out.println(index);
           //  System.err.println();
-           for(int i=index;i<SkyWizard.allObjs.size();i++){
+           for(int i=index;i<explodeKing.allObjs.size();i++){
            // System.err.print(i);
-            movingObj obj =SkyWizard.allObjs.get(i);
+            movingObj obj =explodeKing.allObjs.get(i);
 
 
             if(this!=obj){  //自己不跟自己碰撞
@@ -78,15 +77,15 @@ public class movingObj {
 
 
                     
-                    if(obj!= SkyWizard.wizardPlayer  && obj.bloodCount==0){
-                    SkyWizard.allObjs.remove(obj);
+                    if(obj!= explodeKing.wizardPlayer  && obj.bloodCount==0){
+                    explodeKing.allObjs.remove(obj);
                     }
-                    if(this!= SkyWizard.wizardPlayer && this.bloodCount==0){
-                    SkyWizard.allObjs.remove(this);
+                    if(this!= explodeKing.wizardPlayer && this.bloodCount==0){
+                    explodeKing.allObjs.remove(this);
                     }
 
-                    if(SkyWizard.wizardPlayer.bloodCount==0){
-                        SkyWizard.stageEvent=100;
+                    if(explodeKing.wizardPlayer.bloodCount==0){
+                        explodeKing.stageEvent=100;
                     }
 
 
