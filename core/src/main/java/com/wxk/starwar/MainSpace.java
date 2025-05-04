@@ -1,4 +1,4 @@
-package com.wxk.javagame;
+package com.wxk.starwar;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;

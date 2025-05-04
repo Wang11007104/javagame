@@ -1,10 +1,10 @@
-package com.wxk.javagame.lwjgl3;
+package com.wxk.starwar.lwjgl3;
 
 import com.badlogic.gdx.Gdx;
 
 public class autoMonster extends movingObj{
     
-    public float oriX,oriY;
+    
     
 
 
@@ -23,7 +23,7 @@ public class autoMonster extends movingObj{
                 bloodCount=1;
                 break;  
             case 2:
-                bloodCount=2;
+                bloodCount=3;
                 break;  
             case 3:
                 bloodCount=2;
@@ -31,7 +31,7 @@ public class autoMonster extends movingObj{
             case 4:
                 bloodCount=2;
                 break; 
-            case 99:
+            case 99://boss
                 bloodCount=15;
                 break;                                              
             case 100:
@@ -40,6 +40,7 @@ public class autoMonster extends movingObj{
             default:
                 break;
         }
+        oriBlood=bloodCount;
         //if(monMode==1){
        // vx=150;}
 
@@ -58,7 +59,7 @@ public class autoMonster extends movingObj{
                 if(y<-150){
                     vy=0;
                     showImage=false;
-                    explodeKing.allObjs.remove(this);
+                    SkyWizard.allObjs.remove(this);
                     return;
                 }
         }
@@ -72,7 +73,7 @@ public class autoMonster extends movingObj{
             if(y>790){
                 vy=0;
                 showImage=false;
-                explodeKing.allObjs.remove(this);
+                SkyWizard.allObjs.remove(this);
                 return;
             }
     }
@@ -81,7 +82,7 @@ public class autoMonster extends movingObj{
         if(monMode==2){  //left monster
             
             
-            if(x-oriX>-120 || x==bx ){
+            if(x-oriX>-120 || x==bx ){// 向左120
                 vx=-150;
 
             }
@@ -141,5 +142,7 @@ public class autoMonster extends movingObj{
 
         
     }
+
+
 
 }

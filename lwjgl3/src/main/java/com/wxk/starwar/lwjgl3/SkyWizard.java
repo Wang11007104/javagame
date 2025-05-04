@@ -1,10 +1,9 @@
-package com.wxk.javagame.lwjgl3;
-
-
+package com.wxk.starwar.lwjgl3;
 
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -12,6 +11,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Timer;
+import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import java.util.ArrayList;
@@ -19,6 +21,7 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -26,10 +29,11 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
 
-public class explodeKing extends ApplicationAdapter {
-    private SpriteBatch batch;
+public class SkyWizard extends ApplicationAdapter {
+    public static SpriteBatch batch;
     private BitmapFont font;
     private Texture firstscreen;
+    public static Texture explode;
     private Texture whiteTexture;
     public static int stageEvent=0;
     private Stage stage;
@@ -55,12 +59,42 @@ public class explodeKing extends ApplicationAdapter {
     private autoMonster monster11;
     private autoMonster monster12;
     private Music backgroundMusic;
-
-
+    private int countTimer=0;
+    private ShapeRenderer shapeRenderer1;
+    private Array<Circle> circles;
     public boolean showImage=true;
-    //public  static movingObj[] allObjs=new movingObj[4];
     public static ArrayList<movingObj> allObjs = new ArrayList<>();
+    public static ArrayList<movingObj> allmonsters = new ArrayList<>();
+    public static int countPoint=0;
+    public static int firstRender=0;
+    private Timer.Task timerHandle;
+    private int previousBloodCount=15;
+    private float bloodLine;
+    private  int monster3OriBlood;
+
     
+
+
+    private class Circle {//for back ground white circle
+        float x, y, radius, speedY;
+    
+        Circle() {
+            reset(); // 一開始就初始化隨機位置
+        }
+    
+        void reset() {
+            x = MathUtils.random(0, Gdx.graphics.getWidth());
+            y = MathUtils.random(Gdx.graphics.getHeight(), Gdx.graphics.getHeight() + 300);
+            radius = MathUtils.random(2, 6);
+            speedY = MathUtils.random(50, 150);
+        }
+    
+        void update(float delta) {
+            y -= speedY * delta;
+            if (y + radius < 0) reset();
+        }
+    }
+
     private void keyClicked(){
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
             wizardPlayer.vx=-300;
@@ -80,7 +114,7 @@ public class explodeKing extends ApplicationAdapter {
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            var wizardBullet = new autoMonster("fire.png", wizardPlayer.x+20, wizardPlayer.y+wizardPlayer.h+10, 45, 50, 1,true);
+            autoMonster wizardBullet = new autoMonster("fire.png", wizardPlayer.x+20, wizardPlayer.y+wizardPlayer.h+10, 45, 50, 1,true);
             allObjs.add(wizardBullet);
 
             Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
@@ -132,7 +166,7 @@ public class explodeKing extends ApplicationAdapter {
         pageButton.setVisible(false);
         pageButton1.setVisible(false);
         break;
-        case "buttonCheat":
+        case "buttonLevel":
       //  System.out.println(" Cheat");
         stageEvent=3;
         break;
@@ -158,6 +192,17 @@ public class explodeKing extends ApplicationAdapter {
     @Override
     public void create() {
 
+
+
+
+
+
+
+
+
+
+
+
         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
         
         // 設置循環播放
@@ -175,13 +220,13 @@ public class explodeKing extends ApplicationAdapter {
 
 
 
-        Pixmap pixmap = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
-        pixmap.dispose();
+        
+        
         batch = new SpriteBatch();
         font = new BitmapFont(); // 預設字體
-        //font.getData().setScale(6); // 額外放大
+        font.getData().setScale(2f);
         firstscreen = new Texture(Gdx.files.internal("firstscreen.png"));  // 加載圖片
-       
+        explode = new Texture(Gdx.files.internal("explode.png"));
 
 
 
@@ -195,7 +240,7 @@ public class explodeKing extends ApplicationAdapter {
         starButton2=addButton("buttonIns.png", 230, 185,375,100,"buttonIns");
        // starButton2.setVisible(false);
 
-        starButton3=addButton("buttonCheat.png", 200, 50,375,100,"buttonCheat");
+        starButton3=addButton("buttonLevel.png", 200, 50,375,100,"buttonLevel");
        // starButton3.setVisible(false);
 
         pageButton = addButton("insSpace1.png", 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), "insSpace1");
@@ -208,9 +253,7 @@ public class explodeKing extends ApplicationAdapter {
         shapeRenderer = new ShapeRenderer();
 
 
-       // batch = new SpriteBatch();
-        //wizardPlayer = new movingObj("wizard.png", 260, 0, 75,100,200);
-        wizardPlayer = new movingObj("wizard.png", 0, 0, 75,100,200);
+        wizardPlayer = new movingObj("wizard.png", 260, 0, 75,100,200);
 
 
 
@@ -218,21 +261,15 @@ public class explodeKing extends ApplicationAdapter {
         monster1 = new autoMonster("wizard.png", 300, 350, 75, 100, 2,true);
         monster2 = new autoMonster("ghost.png", 400, 350, 75, 100, 3,true);
         monster3 = new autoMonster("dragon1.png", 300, 500, 300, 300, 99,true);
-
-        monster4 = new autoMonster("wizard.png", 500, 800, 75, 100, 0,true);
-        monster5 = new autoMonster("wizard.png", 500, 800, 75, 100, 0,true);
-        monster6 = new autoMonster("wizard.png", 500, 800, 75, 100, 0,true);
-        monster7 = new autoMonster("wizard.png", 500, 800, 75, 100, 0,true);
-        monster8 = new autoMonster("wizard.png", 500, 800, 75, 100, 0,true);
-        monster9 = new autoMonster("wizard.png", 500, 800, 75, 100, 0,true);
-        monster10 = new autoMonster("wizard.png", 500, 800, 75, 100, 0,true);
-        monster11 = new autoMonster("wizard.png", 500, 800, 75, 100, 0,true);
-        monster12 = new autoMonster("wizard.png", 500, 800, 75, 100, 0,true);
-
+        allmonsters.add(monster1);
+        allmonsters.add(monster2);
+        allmonsters.add(monster3);
+        //allmonsters.add(new autoMonster(null, countPoint, stageEvent, firstRender, countTimer, countPoint, showImage)) //fornewone
+       
 
 
         allObjs.add(wizardPlayer);
-        allObjs.add(monster1);
+       // allObjs.add(monster1);
         allObjs.add(monster2);
         allObjs.add(monster3);
         
@@ -241,8 +278,19 @@ public class explodeKing extends ApplicationAdapter {
         
         
 
+        shapeRenderer = new ShapeRenderer();//for back ground white circle
+        circles = new Array<>();
+        for (int i = 0; i < 100; i++) {
+            circles.add(new Circle());  
+        }  
 
 
+
+
+        
+
+        bloodLine=monster3.w;
+        monster3OriBlood=monster3.bloodCount;
 
     }
 
@@ -251,6 +299,12 @@ public class explodeKing extends ApplicationAdapter {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
 
+        countTimer++;
+
+       
+
+        
+    
 
        
 
@@ -277,6 +331,74 @@ public class explodeKing extends ApplicationAdapter {
             starButton1.setVisible(false);
             starButton2.setVisible(false);
             starButton3.setVisible(false);
+            
+
+            
+
+            
+
+
+
+            //only run once
+            if(firstRender==0){
+                timerHandle=new Timer.Task() {
+                public void run() {
+                    if(true || allObjs.contains(monster1)==false){
+                        autoMonster m=new autoMonster("wizard.png", 300, 350, 75, 100, 2,true);
+                        allObjs.add(m);  // 加進敵人列表
+                        allmonsters.add(m);
+                         
+                    }
+                }
+            };
+            
+            Timer.schedule(timerHandle, 0, 2);
+            firstRender++;
+        }
+
+
+
+
+
+        //for monster bloood line
+        if(allObjs.contains(monster3)==true){
+            
+                
+            if(monster3.bloodCount<previousBloodCount){
+                bloodLine-=(monster3.w)/monster3OriBlood;
+            }
+            
+            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled); // 或 ShapeType.Line 畫框線
+            shapeRenderer.setColor(Color.RED); // 設定顏色
+            shapeRenderer.rect(monster3.x, monster3.y-10, monster3.w, 10);
+            shapeRenderer.setColor(Color.GREEN); // 設定顏色
+            shapeRenderer.rect(monster3.x, monster3.y-10, bloodLine, 10);
+            shapeRenderer.end();
+            previousBloodCount=monster3.bloodCount;
+            
+        }
+        //for monster bloood line
+
+
+
+
+
+            //for back ground white circle
+            float delta = Gdx.graphics.getDeltaTime();
+             for (Circle c : circles) {
+                 c.update(delta);
+             }
+             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
+             shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1f);
+     
+             for (Circle c : circles) {
+                 shapeRenderer.circle(c.x, c.y, c.radius);
+             }
+             shapeRenderer.end();
+             //for back ground white circle
+
+
+            
 
 
         
@@ -285,58 +407,72 @@ public class explodeKing extends ApplicationAdapter {
  
         for(int i=0;i<allObjs.size();i++){
             movingObj obj =allObjs.get(i);
-
-            //System.out.println(obj.monMode);
-            //System.out.println("s= "+allObjs.size());
-
             obj.update();
             if(obj.showImage){  //利用是否顯示方式關掉圖片
             obj.draw(batch);
             }
         }
 
-
+ /* 
         if(allObjs.size()==1){
             stageEvent=11;
+        }*/
+
+
+        if(allObjs.contains(monster3)!=true ){  //win the game禽賊先擒王
+            //還須設置按鈕
+            allObjs.clear();
+            timerHandle.cancel();
+            System.out.println("win");
+            allObjs.add(monster3);
+            allObjs.add(wizardPlayer);
+            wizardPlayer.allRestore();
+            allmonsters.forEach(i->i.allRestore()); // 對於每一個項目都做同一件事情
+            bloodLine=monster3.w;
+            monster3OriBlood=monster3.bloodCount;
+           
         }
 
 
-        /* 
-        wizardPlayer.update(); // 更新飛船
-        wizardPlayer.draw(batch); // 繪製飛船
 
-        //System.out.println("x="+wizardPlayer.x+ "y="+wizardPlayer.y);
-        //System.out.println(Gdx.graphics.getWidth());
+        if(stageEvent==100){  //lose
+            //還須設置按鈕
 
-        monster1.update();
-        if(monster1.showImage){  //利用是否顯示方式關掉圖片
-        monster1.draw(batch);
+            allObjs.clear();
+            timerHandle.cancel();
+            System.out.println("lose");
+            allObjs.add(monster3);
+            allObjs.add(wizardPlayer);
+            wizardPlayer.allRestore();
+            allmonsters.forEach(i->i.allRestore()); // 對於每一個項目都做同一件事情
+            bloodLine=monster3.w;
+            monster3OriBlood=monster3.bloodCount;
+            
         }
+
+
+
+
+            //得分
+            batch.begin();
+            font.draw(batch, "POINT:"+countPoint, 400, 790);
+            batch.end();
+            //得分
+
+
+            if(movingObj.explodeCount>0){
+            SkyWizard.batch.begin();
+            SkyWizard.batch.draw(explode, movingObj.explodeX-20, movingObj.explodeY-20, 100, 100);
+            SkyWizard.batch.end();
+            movingObj.explodeCount--;
+            }
+        }
+
+
         
 
 
-
-        monster2.update();
-        if(monster2.showImage){  //利用是否顯示方式關掉圖片
-        monster2.draw(batch);
-        }
-
-
-
-        monster3.update();
-        monster3.draw(batch);
-        */
-          
-
-
-       
-
-        }
-
-
-        if(stageEvent==11){
-            
-        }
+        
 
         if(stageEvent==2){  //   點擊介紹後畫面
             //addButton("insSpace.png", 100, 100, 100, 100, "insSpace");
@@ -394,14 +530,16 @@ public class explodeKing extends ApplicationAdapter {
 
         }
         
+       
         
        
-       // System.out.println("hi");
+       
      
     }
 
     @Override
     public void dispose() {
+        shapeRenderer.dispose();
         backgroundMusic.dispose();
         batch.dispose();
         font.dispose();

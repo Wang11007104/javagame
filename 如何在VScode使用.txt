@@ -1,0 +1,8 @@
+首先打開終端機(Terminal)然後直接輸入.\gradlew.bat lwjgl3:run
+或是在左邊點Gradle後點lwjgl3後點application後點run
+
+如果遇到
+Unable to delete directory 'C:\Users\User\OneDrive\Documents\javagame\lwjgl3\build'
+請手動刪除上面那個資料夾
+在cmd中輸入.\gradlew.bat clean build
+然後重新偵測
