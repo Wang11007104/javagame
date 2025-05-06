@@ -62,6 +62,7 @@ public class BombKing extends ApplicationAdapter {
     private int previousBloodCount=15;
     private float bloodLine;
     private  int monster3OriBlood;
+    private Map m;
 
     
 
@@ -164,105 +165,13 @@ public class BombKing extends ApplicationAdapter {
     public void create() {
 
 
-
-
-
-
-
-
-
-
-
-
-        backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
         
-        // 設置循環播放
-        backgroundMusic.setLooping(true);
-        
-        // 設置音量（範圍 0.0 ~ 1.0）
-        backgroundMusic.setVolume(0.5f);
-        
-        // 開始播放
-        backgroundMusic.play();
-
-        backgroundMusic.setLooping(true);
-
-
-
-
-
-        
-        
+        m=new Map("C:\\Users\\User\\OneDrive\\桌面\\image\\bombobj.png");
         batch = new SpriteBatch();
-        font = new BitmapFont(); // 預設字體
-        font.getData().setScale(2f);
-        firstscreen = new Texture(Gdx.files.internal("firstscreen.png"));  // 加載圖片
-        explode = new Texture(Gdx.files.internal("explode.png"));
-
-
-
-
-
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
-        starButton1=addButton("buttonplay.png", 200, 330,375,100,"buttonPlay");
-       // starButton1.setVisible(false);
-
-        starButton2=addButton("buttonIns.png", 230, 185,375,100,"buttonIns");
-       // starButton2.setVisible(false);
-
-        starButton3=addButton("buttonLevel.png", 200, 50,375,100,"buttonLevel");
-       // starButton3.setVisible(false);
-
-        pageButton = addButton("insSpace1.png", 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), "insSpace1");
-        pageButton.setVisible(false);
-
-        pageButton1 = addButton("insUDLR1.png", 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), "insUDLR1");
-        pageButton1.setVisible(false);
-
-
-        shapeRenderer = new ShapeRenderer();
-
-
-        wizardPlayer = new movingObj("wizard.png", 260, 0, 75,100,200);
 
 
 
         
-        monster1 = new autoMonster("wizard.png", 300, 350, 75, 100, 2,true);
-        monster2 = new autoMonster("ghost.png", 400, 350, 75, 100, 3,true);
-        monster3 = new autoMonster("dragon1.png", 300, 500, 300, 300, 99,true);
-        allmonsters.add(monster1);
-        allmonsters.add(monster2);
-        allmonsters.add(monster3);
-        //allmonsters.add(new autoMonster(null, countPoint, stageEvent, firstRender, countTimer, countPoint, showImage)) //fornewone
-       
-
-
-        allObjs.add(wizardPlayer);
-       // allObjs.add(monster1);
-        allObjs.add(monster2);
-        allObjs.add(monster3);
-        
-       
-        
-        
-        
-
-        shapeRenderer = new ShapeRenderer();//for back ground white circle
-        circles = new Array<>();
-        for (int i = 0; i < 100; i++) {
-            circles.add(new Circle());  
-        }  
-
-
-
-
-        
-
-        bloodLine=monster3.w;
-        monster3OriBlood=monster3.bloodCount;
-
     }
 
     @Override
@@ -270,257 +179,15 @@ public class BombKing extends ApplicationAdapter {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
 
-        countTimer++;
-
-       
-
-        
-    
-
-       
-
-              
-               
-      //  System.out.println(stageEvent);
-        if(stageEvent==0){  //  開始畫面
-            starButton1.setVisible(true);
-            starButton2.setVisible(true);
-            starButton3.setVisible(true);
-            
-               batch.begin();
-               batch.setColor(0.53f, 0.81f, 0.92f, 1f);
-               batch.draw(firstscreen, 0, 0, 600, 800);
-               batch.end();
-
-
-               stage.act(Gdx.graphics.getDeltaTime());
-               stage.draw();
-        }
-
-
-        if(stageEvent==1){  //  遊戲畫面
-            starButton1.setVisible(false);
-            starButton2.setVisible(false);
-            starButton3.setVisible(false);
-            
-
-            
-
-            
-
-
-
-            //only run once
-            if(firstRender==0){
-                timerHandle=new Timer.Task() {
-                public void run() {
-                    if(true || allObjs.contains(monster1)==false){
-                        autoMonster m=new autoMonster("wizard.png", 300, 350, 75, 100, 2,true);
-                        allObjs.add(m);  // 加進敵人列表
-                        allmonsters.add(m);
-                         
-                    }
-                }
-            };
-            
-            Timer.schedule(timerHandle, 0, 2);
-            firstRender++;
-        }
-
-
-
-
-
-        //for monster bloood line
-        if(allObjs.contains(monster3)==true){
-            
-                
-            if(monster3.bloodCount<previousBloodCount){
-                bloodLine-=(monster3.w)/monster3OriBlood;
-            }
-            
-            shapeRenderer.begin(ShapeRenderer.ShapeType.Filled); // 或 ShapeType.Line 畫框線
-            shapeRenderer.setColor(Color.RED); // 設定顏色
-            shapeRenderer.rect(monster3.x, monster3.y-10, monster3.w, 10);
-            shapeRenderer.setColor(Color.GREEN); // 設定顏色
-            shapeRenderer.rect(monster3.x, monster3.y-10, bloodLine, 10);
-            shapeRenderer.end();
-            previousBloodCount=monster3.bloodCount;
-            
-        }
-        //for monster bloood line
-
-
-
-
-
-            //for back ground white circle
-            float delta = Gdx.graphics.getDeltaTime();
-             for (Circle c : circles) {
-                 c.update(delta);
-             }
-             shapeRenderer.begin(ShapeRenderer.ShapeType.Filled);
-             shapeRenderer.setColor(0.5f, 0.5f, 0.5f, 1f);
-     
-             for (Circle c : circles) {
-                 shapeRenderer.circle(c.x, c.y, c.radius);
-             }
-             shapeRenderer.end();
-             //for back ground white circle
-
-
-            
-
-
-        
-        keyClicked();
-
- 
-        for(int i=0;i<allObjs.size();i++){
-            movingObj obj =allObjs.get(i);
-            obj.update();
-            if(obj.showImage){  //利用是否顯示方式關掉圖片
-            obj.draw(batch);
-            }
-        }
-
- /* 
-        if(allObjs.size()==1){
-            stageEvent=11;
-        }*/
-
-
-        if(allObjs.contains(monster3)!=true ){  //win the game禽賊先擒王
-            //還須設置按鈕
-            allObjs.clear();
-            timerHandle.cancel();
-            System.out.println("win");
-            allObjs.add(monster3);
-            allObjs.add(wizardPlayer);
-            wizardPlayer.allRestore();
-            allmonsters.forEach(i->i.allRestore()); // 對於每一個項目都做同一件事情
-            bloodLine=monster3.w;
-            monster3OriBlood=monster3.bloodCount;
-           
-        }
-
-
-
-        if(stageEvent==100){  //lose
-            //還須設置按鈕
-
-            allObjs.clear();
-            timerHandle.cancel();
-            System.out.println("lose");
-            allObjs.add(monster3);
-            allObjs.add(wizardPlayer);
-            wizardPlayer.allRestore();
-            allmonsters.forEach(i->i.allRestore()); // 對於每一個項目都做同一件事情
-            bloodLine=monster3.w;
-            monster3OriBlood=monster3.bloodCount;
-            
-        }
-
-
-
-
-            //得分
-            batch.begin();
-            font.draw(batch, "POINT:"+countPoint, 400, 790);
-            batch.end();
-            //得分
-
-
-            if(movingObj.explodeCount>0){
-            BombKing.batch.begin();
-            BombKing.batch.draw(explode, movingObj.explodeX-20, movingObj.explodeY-20, 100, 100);
-            BombKing.batch.end();
-            movingObj.explodeCount--;
-            }
-        }
-
-
-        
-
-
-        
-
-        if(stageEvent==2){  //   點擊介紹後畫面
-            //addButton("insSpace.png", 100, 100, 100, 100, "insSpace");
-            pageButton.setVisible(true);
-
-
-            shapeRenderer.begin((ShapeRenderer.ShapeType.Filled));
-            shapeRenderer.setColor(0.53f, 0.81f, 0.92f, 1f);
-            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-            shapeRenderer.end();
-
-
-            stage.act(Gdx.graphics.getDeltaTime());
-            stage.draw();
-            starButton1.setVisible(false);
-            starButton2.setVisible(false);
-            starButton3.setVisible(false);
-
-
-
-        }
-
-
-
-
-        if(stageEvent==21){  //  介紹畫面下第一張
-            //addButton("insSpace.png", 100, 100, 100, 100, "insSpace");
-            pageButton1.setVisible(true);
-
-
-            shapeRenderer.begin((ShapeRenderer.ShapeType.Filled));
-            shapeRenderer.setColor(0.53f, 0.81f, 0.92f, 1f);
-            shapeRenderer.rect(0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
-            shapeRenderer.end();
-
-
-            stage.act(Gdx.graphics.getDeltaTime());
-            stage.draw();
-
-            
-
-        }
-
-
-
-
-
-
-        if(stageEvent==3){
-            starButton1.setVisible(false);
-            starButton2.setVisible(false);
-            starButton3.setVisible(false);
-
-        }
-        
-       
-        
-       
-       
+        m.draw(batch);
      
     }
 
     @Override
     public void dispose() {
-        shapeRenderer.dispose();
-        backgroundMusic.dispose();
         batch.dispose();
-        font.dispose();
-        if (whiteTexture != null) {
-            whiteTexture.dispose();  // 釋放資源
-        }
-        stage.dispose();
-
-        if (wizardPlayer != null) {
-            wizardPlayer.dispose();  // 釋放資源
+        for (Texture tex : m.tileTextures.values()) {
+            tex.dispose();
         }
         
     }
