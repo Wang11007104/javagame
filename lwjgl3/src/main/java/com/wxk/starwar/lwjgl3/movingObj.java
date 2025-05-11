@@ -1,4 +1,6 @@
 package com.wxk.starwar.lwjgl3;
+import java.awt.Point;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -128,7 +130,8 @@ public class movingObj {
     // 繪製飛船
     public void draw(SpriteBatch batch) {
         batch.begin();
-        batch.draw(texture, x, y,w,h);
+        Point p= Map.realXY((int)x,(int)y);
+        batch.draw(texture, p.x, p.y,w,h);
         batch.end();
     }
 

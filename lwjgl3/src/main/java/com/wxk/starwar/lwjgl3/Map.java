@@ -2,8 +2,13 @@ package com.wxk.starwar.lwjgl3;
 import com.badlogic.gdx.utils.IntIntMap;
 import com.badlogic.gdx.utils.ObjectMap;
 import javax.imageio.ImageIO;
+
+import org.lwjgl.system.Pointer;
+
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -32,11 +37,11 @@ public class Map {
        
         tileTextures = new IntMap<>();
 
-        tileTextures.put(1, new Texture("tree.png"));
-        tileTextures.put(2, new Texture("road.png"));
+        tileTextures.put(1, new Texture("road.png"));
+        tileTextures.put(2, new Texture("wall.png"));
         tileTextures.put(3, new Texture("box.png"));
         tileTextures.put(4, new Texture("house.png"));
-        tileTextures.put(5, new Texture("wall.png"));
+        tileTextures.put(5, new Texture("tree.png"));
 
 
     try {
@@ -81,16 +86,56 @@ public class Map {
             int x=0,y=0;
             x=i%15;
             y=i/15;
-            batch.draw(tileTextures.get(mapArray[i]), x*48+280, y*48,48,48);
+            batch.draw(tileTextures.get(mapArray[i]), x*48+280, 720-y*48-48,48,48);
 
 
         }
-        
-        
-
-
 
         batch.end();
+    }
+
+    public static int xyToI(int x,int y){
+        //x=(x-280)/48;
+        //y=((720-y)-48)/48;
+        return y*15+x;
+    }
+
+
+
+    public static Point realXY(int x,int y){
+        return new Point(x*48+280,720-y*48-48);
+    }
+
+    public boolean isBombable(int i){
+        
+        int t = mapArray[i];
+        if(t==1 || t==3){
+            return true;
+        }else {
+            return false;
+        }
+
+    }
+
+
+
+    public void bomb(int x,int y){
+       int i1=xyToI(x-1, y);
+       int i2=xyToI(x+1, y);
+       int i3=xyToI(x, y-1);
+       int i4=xyToI(x, y+1);
+        if(isBombable(i1)){
+            mapArray[i1]=1;
+        }
+        if(isBombable(i2)){
+            mapArray[i2]=1;
+        }
+        if(isBombable(i3)){
+            mapArray[i3]=1;
+        }
+        if(isBombable(i4)){
+            mapArray[i4]=1;
+        }
     }
 
 }

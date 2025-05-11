@@ -45,7 +45,8 @@ public class BombKing extends ApplicationAdapter {
     private ImageButton starButton3;
     private ShapeRenderer shapeRenderer;
    // private SpriteBatch batch1;
-    public static movingObj wizardPlayer;
+    public static movingObj bombPlayer1;
+    public static movingObj bombPlayer2;
     private autoMonster monster1;
     private autoMonster monster2;
     private autoMonster monster3;
@@ -68,29 +69,72 @@ public class BombKing extends ApplicationAdapter {
 
 
     private void keyClicked(){
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)){
-            wizardPlayer.vx=-300;
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
+            bombPlayer1.x--;
+            bombPlayer1.vx=2;  //面向左
         }
-        else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)){
-            wizardPlayer.vx=300;
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
+            bombPlayer1.x++;
+            bombPlayer1.vx=0;  //面右
         }
-        else if (Gdx.input.isKeyPressed(Input.Keys.UP)){
-            wizardPlayer.vy=300;
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)){
+            bombPlayer1.y--;
+            bombPlayer1.vx=1;   //面上
         }
-        else if (Gdx.input.isKeyPressed(Input.Keys.DOWN)){
-            wizardPlayer.vy=-300;
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
+            bombPlayer1.y++;
+            bombPlayer1.vx=3;   //面下
         }
-        else{
-            wizardPlayer.vx=0;
-            wizardPlayer.vy=0;
+        
+        
+
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.A)){
+            bombPlayer2.x--;
         }
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
+            bombPlayer2.x++;
+        }
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
+            bombPlayer2.y--;
+        }
+        else if (Gdx.input.isKeyJustPressed(Input.Keys.S)){
+            bombPlayer2.y++;
+        }
+       
+
+
+
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            autoMonster wizardBullet = new autoMonster("fire.png", wizardPlayer.x+20, wizardPlayer.y+wizardPlayer.h+10, 45, 50, 1,true);
-            allObjs.add(wizardBullet);
+            autoMonster wizardBullet = new autoMonster("fire.png", bombPlayer2.x, bombPlayer2.y, 48, 48, 2222,true);
+            allObjs.add(0, wizardBullet);
 
-            Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
-            clickSound.play();
+
+
+
+            float delaySeconds = 3f; // 3 秒後執行
+
+            Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                //System.out.println("3 秒到了！執行任務！"+wizardBullet.x);
+                m.bomb((int)wizardBullet.x,(int) wizardBullet.y);
+
+
+                Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
+                clickSound.play();
+
+                
+            }
+            }, delaySeconds);
+            
+
+
+
+
+
+            
         }
 
 
@@ -170,7 +214,12 @@ public class BombKing extends ApplicationAdapter {
         batch = new SpriteBatch();
 
 
+        bombPlayer1 = new movingObj("playerF.png", 1, 1, 48, 48, 9991);
+        bombPlayer2 = new movingObj("playerB.png", 2, 2, 48, 48, 9992);
 
+        allObjs.add(bombPlayer1);
+        allObjs.add(bombPlayer2);
+        
         
     }
 
@@ -178,9 +227,20 @@ public class BombKing extends ApplicationAdapter {
     public void render() {
 
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
-
         m.draw(batch);
-     
+
+
+        for(int i=0;i<allObjs.size();i++){
+            movingObj obj =allObjs.get(i);
+            //obj.update();
+            if(true||obj.showImage){  //利用是否顯示方式關掉圖片
+            obj.draw(batch);
+            }
+        }
+
+        keyClicked();
+
+        
     }
 
     @Override
