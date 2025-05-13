@@ -45,8 +45,8 @@ public class BombKing extends ApplicationAdapter {
     private ImageButton starButton3;
     private ShapeRenderer shapeRenderer;
    // private SpriteBatch batch1;
-    public static movingObj bombPlayer1;
-    public static movingObj bombPlayer2;
+    public static BombKingObj bombPlayer1;
+    public static BombKingObj bombPlayer2;
     private autoMonster monster1;
     private autoMonster monster2;
     private autoMonster monster3;
@@ -54,9 +54,9 @@ public class BombKing extends ApplicationAdapter {
     private int countTimer=0;
     private ShapeRenderer shapeRenderer1;
     public boolean showImage=true;
-    public static ArrayList<movingObj> maps = new ArrayList<>();
-    public static ArrayList<movingObj> bombs = new ArrayList<>();
-    public static ArrayList<movingObj> allObjs = new ArrayList<>();
+    public static ArrayList<BombKingObj> maps = new ArrayList<>();
+    public static ArrayList<BombKingObj> bombs = new ArrayList<>();
+    public static ArrayList<BombKingObj> allObjs = new ArrayList<>();
     public static int countPoint=0;
     public static int firstRender=0;
     private Timer.Task timerHandle;
@@ -214,8 +214,8 @@ public class BombKing extends ApplicationAdapter {
         batch = new SpriteBatch();
 
 
-        bombPlayer1 = new movingObj("playerF.png", 1, 1, 48, 48, 9991);
-        bombPlayer2 = new movingObj("playerB.png", 2, 2, 48, 48, 9992);
+        bombPlayer1 = new BombKingObj("playerF.png", 1, 1, 48, 48, 9991);
+        bombPlayer2 = new BombKingObj("playerB.png", 2, 2, 48, 48, 9992);
 
         allObjs.add(bombPlayer1);
         allObjs.add(bombPlayer2);
@@ -231,7 +231,7 @@ public class BombKing extends ApplicationAdapter {
 
 
         for(int i=0;i<allObjs.size();i++){
-            movingObj obj =allObjs.get(i);
+            BombKingObj obj =allObjs.get(i);
             //obj.update();
             if(true||obj.showImage){  //利用是否顯示方式關掉圖片
             obj.draw(batch);

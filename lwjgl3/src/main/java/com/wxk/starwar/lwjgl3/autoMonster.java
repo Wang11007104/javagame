@@ -2,7 +2,7 @@ package com.wxk.starwar.lwjgl3;
 
 import com.badlogic.gdx.Gdx;
 
-public class autoMonster extends movingObj{
+public class autoMonster extends BombKingObj{
     
     
     
@@ -59,7 +59,7 @@ public class autoMonster extends movingObj{
                 if(y<-150){
                     vy=0;
                     showImage=false;
-                    SkyWizard.allObjs.remove(this);
+                    BombKing.allObjs.remove(this);
                     return;
                 }
         }
@@ -73,7 +73,7 @@ public class autoMonster extends movingObj{
             if(y>790){
                 vy=0;
                 showImage=false;
-                SkyWizard.allObjs.remove(this);
+                BombKing.allObjs.remove(this);
                 return;
             }
     }

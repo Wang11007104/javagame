@@ -1,4 +1,6 @@
 package com.wxk.starwar.lwjgl3;
+import java.awt.Point;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -50,16 +52,16 @@ public class BombKingObj {
 
         // 限制邊界
         if(monMode!=0 &&monMode!=1){ //給超出範圍後刪掉mode0需要出邊界
-        x = Math.max(0, Math.min(x, Gdx.graphics.getWidth()+this.w - texture.getWidth()));
-        y = Math.max(0, Math.min(y, Gdx.graphics.getHeight()+this.h - texture.getHeight()));
+        x = Math.max(0, Math.min(x, Gdx.graphics.getWidth()+80 - texture.getWidth()));
+        y = Math.max(0, Math.min(y, Gdx.graphics.getHeight()+100 - texture.getHeight()));
         }
 
-           int index = SkyWizard.allObjs.indexOf(this);
+           int index = BombKing.allObjs.indexOf(this);
            //System.out.println(index);
           //  System.err.println();
-           for(int i=index;i<SkyWizard.allObjs.size();i++){
+           for(int i=index;i<BombKing.allObjs.size();i++){
            // System.err.print(i);
-            BombKingObj obj =SkyWizard.allObjs.get(i);
+            BombKingObj obj =BombKing.allObjs.get(i);
 
 
             if(this!=obj){  //自己不跟自己碰撞
@@ -90,13 +92,13 @@ public class BombKingObj {
                     
                     }    
             
-                    if(obj!= BombKingObj.wizardPlayer  && obj.bloodCount<=0){
-                    SkyWizard.allObjs.remove(obj);
-                    SkyWizard.countPoint++;
+                    if(obj!= BombKing.bombPlayer1  && obj.bloodCount<=0){
+                    BombKing.allObjs.remove(obj);
+                    BombKing.countPoint++;
                     }
-                    if(this!= SkyWizard.wizardPlayer && this.bloodCount<=0){
-                    SkyWizard.allObjs.remove(this);
-                    SkyWizard.countPoint++;
+                    if(this!= BombKing.bombPlayer1 && this.bloodCount<=0){
+                    BombKing.allObjs.remove(this);
+                    BombKing.countPoint++;
                     }
 
                     }
@@ -105,8 +107,8 @@ public class BombKingObj {
                     
                     
                     
-                    if(SkyWizard.wizardPlayer.bloodCount==0){
-                        SkyWizard.stageEvent=100;
+                    if(BombKing.bombPlayer1.bloodCount==0){
+                        BombKing.stageEvent=100;
                     }
 
 
@@ -128,7 +130,8 @@ public class BombKingObj {
     // 繪製飛船
     public void draw(SpriteBatch batch) {
         batch.begin();
-        batch.draw(texture, x, y,w,h);
+        Point p= Map.realXY((int)x,(int)y);
+        batch.draw(texture, p.x, p.y,w,h);
         batch.end();
     }
 
@@ -152,9 +155,9 @@ public class BombKingObj {
         x=oriX;
         y=oriY;
         bloodCount=oriBlood;
-        SkyWizard.firstRender=0;
-        SkyWizard.stageEvent=0;
-        SkyWizard.countPoint=0;
+        BombKing.firstRender=0;
+        BombKing.stageEvent=0;
+        BombKing.countPoint=0;
     }
 
    
