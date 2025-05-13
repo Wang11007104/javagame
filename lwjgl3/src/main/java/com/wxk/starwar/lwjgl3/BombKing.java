@@ -63,43 +63,39 @@ public class BombKing extends ApplicationAdapter {
     private int previousBloodCount=15;
     private float bloodLine;
     private  int monster3OriBlood;
-    private Map m;
+    public static Map m;
 
     
 
 
     private void keyClicked(){
         if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT)){
-            bombPlayer1.x--;
-            bombPlayer1.vx=2;  //面向左
+            bombPlayer1.moveLeft();  //面向左
         }
         else if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT)){
-            bombPlayer1.x++;
-            bombPlayer1.vx=0;  //面右
+            bombPlayer1.moveRight();  //面右
         }
         else if (Gdx.input.isKeyJustPressed(Input.Keys.UP)){
-            bombPlayer1.y--;
-            bombPlayer1.vx=1;   //面上
+            bombPlayer1.moveUp();   //面上
         }
         else if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN)){
-            bombPlayer1.y++;
-            bombPlayer1.vx=3;   //面下
+            bombPlayer1.moveDown();   //面下
         }
         
         
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.A)){
-            bombPlayer2.x--;
+            bombPlayer2.moveLeft();
         }
         else if (Gdx.input.isKeyJustPressed(Input.Keys.D)){
-            bombPlayer2.x++;
+            bombPlayer2.moveRight();
         }
         else if (Gdx.input.isKeyJustPressed(Input.Keys.W)){
-            bombPlayer2.y--;
+            bombPlayer2.moveUp();
         }
         else if (Gdx.input.isKeyJustPressed(Input.Keys.S)){
-            bombPlayer2.y++;
+            bombPlayer2.moveDown();
         }
        
 
@@ -107,7 +103,7 @@ public class BombKing extends ApplicationAdapter {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            autoMonster wizardBullet = new autoMonster("fire.png", bombPlayer2.x, bombPlayer2.y, 48, 48, 2222,true);
+            autoMonster wizardBullet = new autoMonster("fire", bombPlayer2.x, bombPlayer2.y, 48, 48, 2222,true);
             allObjs.add(0, wizardBullet);
 
 
@@ -124,7 +120,7 @@ public class BombKing extends ApplicationAdapter {
 
                 Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
                 clickSound.play();
-
+                allObjs.remove(wizardBullet);
                 
             }
             }, delaySeconds);
@@ -137,7 +133,40 @@ public class BombKing extends ApplicationAdapter {
             
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)){
+            autoMonster wizardBullet = new autoMonster("fire", bombPlayer1.x, bombPlayer1.y, 48, 48, 2222,true);
+            allObjs.add(0, wizardBullet);
 
+
+
+
+            float delaySeconds = 3f; // 3 秒後執行
+
+            Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                //System.out.println("3 秒到了！執行任務！"+wizardBullet.x);
+                m.bomb((int)wizardBullet.x,(int) wizardBullet.y);
+
+
+                Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
+                clickSound.play();
+                
+                allObjs.remove(wizardBullet);
+                
+                
+                
+            }
+
+            }, delaySeconds);
+            
+
+
+
+
+
+            
+        }
 
     }
 
@@ -214,8 +243,8 @@ public class BombKing extends ApplicationAdapter {
         batch = new SpriteBatch();
 
 
-        bombPlayer1 = new BombKingObj("playerF.png", 1, 1, 48, 48, 9991);
-        bombPlayer2 = new BombKingObj("playerB.png", 2, 2, 48, 48, 9992);
+        bombPlayer1 = new BombKingObj("player", 1, 1, 48, 48, 9991);
+        bombPlayer2 = new BombKingObj("player2", 2, 2, 48, 48, 9992);
 
         allObjs.add(bombPlayer1);
         allObjs.add(bombPlayer2);
@@ -226,6 +255,7 @@ public class BombKing extends ApplicationAdapter {
     @Override
     public void render() {
 
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
         m.draw(batch);
 
@@ -233,7 +263,8 @@ public class BombKing extends ApplicationAdapter {
         for(int i=0;i<allObjs.size();i++){
             BombKingObj obj =allObjs.get(i);
             //obj.update();
-            if(true||obj.showImage){  //利用是否顯示方式關掉圖片
+            //System.out.println(obj.showImage);
+            if(obj.showImage){  //利用是否顯示方式關掉圖片
             obj.draw(batch);
             }
         }

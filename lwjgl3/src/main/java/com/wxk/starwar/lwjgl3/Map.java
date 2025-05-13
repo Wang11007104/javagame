@@ -117,6 +117,21 @@ public class Map {
 
     }
 
+    public boolean isWalkable(int i){
+
+        int t=mapArray[i];
+        if(t==1){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public int getTexture(int x,int y){
+        return mapArray[xyToI(x, y)];
+    }
+
+
 
 
     public void bomb(int x,int y){

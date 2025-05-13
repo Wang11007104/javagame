@@ -47,8 +47,8 @@ public class autoMonster extends BombKingObj{
     }
     public void update(){
        
-       float bx = Gdx.graphics.getWidth() - texture.getWidth();
-       float by = Gdx.graphics.getHeight() - texture.getHeight();
+       float bx = Gdx.graphics.getWidth() - textureF.getWidth();
+       float by = Gdx.graphics.getHeight() - textureF.getHeight();
 
 
       //  System.out.println(SkyWizard.allObjs.size());

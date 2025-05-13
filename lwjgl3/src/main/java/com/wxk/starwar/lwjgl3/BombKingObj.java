@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class BombKingObj {
-    public Texture texture;
+    public Texture textureL,textureR,textureF,textureB;
     public float x, y;//即時的位置
     public float w,h;
     public float vx,vy;
@@ -17,12 +17,17 @@ public class BombKingObj {
     public int bloodCount=10,oriBlood=10;//wizaed.blood
     public float oriX,oriY;
     public static float explodeX,explodeY,explodeCount;
+    
 
 
     
 
     public BombKingObj(String texturePath, float startX, float startY,float width,float height,int monMode) {
-        this.texture = new Texture(texturePath);  // 加載飛船圖片
+        this.textureF = new Texture(texturePath+"F.png");  // 加載飛船圖片
+        this.textureR = new Texture(texturePath+"R.png");
+        this.textureB = new Texture(texturePath+"B.png");
+        this.textureL = new Texture(texturePath+"L.png");
+
         this.x = startX;  // 設定飛船的 X 座標
         this.y = startY;  // 設定飛船的 Y 座標
         oriX=startX;
@@ -52,8 +57,8 @@ public class BombKingObj {
 
         // 限制邊界
         if(monMode!=0 &&monMode!=1){ //給超出範圍後刪掉mode0需要出邊界
-        x = Math.max(0, Math.min(x, Gdx.graphics.getWidth()+80 - texture.getWidth()));
-        y = Math.max(0, Math.min(y, Gdx.graphics.getHeight()+100 - texture.getHeight()));
+        x = Math.max(0, Math.min(x, Gdx.graphics.getWidth()+80 - textureB.getWidth()));
+        y = Math.max(0, Math.min(y, Gdx.graphics.getHeight()+100 - textureB.getHeight()));
         }
 
            int index = BombKing.allObjs.indexOf(this);
@@ -131,7 +136,18 @@ public class BombKingObj {
     public void draw(SpriteBatch batch) {
         batch.begin();
         Point p= Map.realXY((int)x,(int)y);
-        batch.draw(texture, p.x, p.y,w,h);
+        if(vx==0){
+        batch.draw(textureR, p.x, p.y,w,h);
+        }
+        else if(vx==1){
+        batch.draw(textureB, p.x, p.y,w,h);
+        }
+        else if(vx==2){
+        batch.draw(textureL, p.x, p.y,w,h);
+        }
+        else if(vx==3){
+        batch.draw(textureF, p.x, p.y,w,h);
+        }
         batch.end();
     }
 
@@ -160,6 +176,54 @@ public class BombKingObj {
         BombKing.countPoint=0;
     }
 
+
+    
+
+
+    public boolean moveLeft(){
+        vx=2;
+        if(BombKing.m.isWalkable(Map.xyToI((int)(x-1),(int) y))){
+            x--;
+            
+            return true;
+        }
+        return false;
+    } 
+
+    public boolean moveRight(){
+        vx=0;
+        if(BombKing.m.isWalkable(Map.xyToI((int)(x+1),(int) y))){
+            x++;
+           // vx=0;
+            return true;
+        }
+        
+        return false;
+        
+        
+    }
+
+    public boolean moveUp(){
+        vx=1;
+        if(BombKing.m.isWalkable(Map.xyToI((int)x,(int) (y-1)))){
+            y--;
+           // vx=1;
+            return true;
+        }
+        return false;
+        
+    }
+
+    public boolean moveDown(){
+        vx=3; 
+        if(BombKing.m.isWalkable(Map.xyToI((int)x,(int) (y+1)))){
+            y++;
+            
+            return true;
+        }
+        return false;
+        
+    }
    
 
 
@@ -169,7 +233,7 @@ public class BombKingObj {
 
     // 釋放資源
     public void dispose() {
-        texture.dispose();
+        textureB.dispose();
     }
 
 
