@@ -210,7 +210,7 @@ public class BombKing extends ApplicationAdapter {
 
 
         
-        m=new Map("C:\\Users\\User\\OneDrive\\桌面\\image\\bombobj.png");
+        m=new Map("bombobj.png");
         batch = new SpriteBatch();
 
 
