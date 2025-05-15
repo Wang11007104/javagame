@@ -63,9 +63,42 @@ public class BombKing extends ApplicationAdapter {
     private int previousBloodCount=15;
     private float bloodLine;
     private  int monster3OriBlood;
+    public boolean isWin;
     public static Map m;
 
     
+
+
+
+    public void bombfire(BombKingObj p){
+        autoMonster wizardBullet = new autoMonster("fire", p.x, p.y, 48, 48, 2222,true);
+        
+        allObjs.add(0, wizardBullet);
+
+
+            float delaySeconds = 3f; // 3 秒後執行
+
+            Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                //System.out.println("3 秒到了！執行任務！"+wizardBullet.x);
+                m.bomb((int)wizardBullet.x,(int) wizardBullet.y);
+
+
+                Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
+                clickSound.play();
+                allObjs.remove(wizardBullet);
+                
+                
+            }
+            }, delaySeconds);
+
+
+            
+
+
+    }
+
 
 
     private void keyClicked(){
@@ -103,70 +136,14 @@ public class BombKing extends ApplicationAdapter {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            autoMonster wizardBullet = new autoMonster("fire", bombPlayer2.x, bombPlayer2.y, 48, 48, 2222,true);
-            allObjs.add(0, wizardBullet);
-
-
-
-
-            float delaySeconds = 3f; // 3 秒後執行
-
-            Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                //System.out.println("3 秒到了！執行任務！"+wizardBullet.x);
-                m.bomb((int)wizardBullet.x,(int) wizardBullet.y);
-
-
-                Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
-                clickSound.play();
-                allObjs.remove(wizardBullet);
-                
-            }
-            }, delaySeconds);
-            
-
-
-
-
-
-            
+           bombfire(bombPlayer2);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)){
-            autoMonster wizardBullet = new autoMonster("fire", bombPlayer1.x, bombPlayer1.y, 48, 48, 2222,true);
-            allObjs.add(0, wizardBullet);
-
-
-
-
-            float delaySeconds = 3f; // 3 秒後執行
-
-            Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                //System.out.println("3 秒到了！執行任務！"+wizardBullet.x);
-                m.bomb((int)wizardBullet.x,(int) wizardBullet.y);
-
-
-                Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
-                clickSound.play();
-                
-                allObjs.remove(wizardBullet);
-                
-                
-                
-            }
-
-            }, delaySeconds);
-            
-
-
-
-
-
-            
+            bombfire(bombPlayer1);
         }
+
+
 
     }
 
@@ -238,10 +215,28 @@ public class BombKing extends ApplicationAdapter {
     public void create() {
 
 
+         backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
+        
+        // 設置循環播放
+        backgroundMusic.setLooping(true);
+        
+        // 設置音量（範圍 0.0 ~ 1.0）
+        backgroundMusic.setVolume(0.5f);
+        
+        // 開始播放
+        backgroundMusic.play();
+
+        backgroundMusic.setLooping(true);
+
+
+
+
+
         
         m=new Map("bombobj.png");
         batch = new SpriteBatch();
-
+        font = new BitmapFont(); // 預設字體
+        font.getData().setScale(2f);
 
         bombPlayer1 = new BombKingObj("player", 1, 1, 48, 48, 9991);
         bombPlayer2 = new BombKingObj("player2", 2, 2, 48, 48, 9992);
@@ -254,9 +249,36 @@ public class BombKing extends ApplicationAdapter {
 
     @Override
     public void render() {
-
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
+
+        if (stageEvent == 200) {  // 結算畫面
+            batch.begin();
+            font.getData().setScale(3f);
+            font.setColor(Color.WHITE);
+        
+            font.draw(batch, "GAME OVER", 180, 600);
+        
+            font.getData().setScale(2f);
+            font.draw(batch, "Remaining player1 BLOOD: " + bombPlayer1.bloodCount, 200, 500);
+            font.draw(batch, "Remaining player2 BLOOD: " + bombPlayer2.bloodCount, 200, 400);
+            font.draw(batch, "Use mouse to click anywhere to return", 60, 200);
+            batch.end();
+
+        if (Gdx.input.justTouched() ) {
+            bombPlayer1.allRestore();
+            bombPlayer2.allRestore();
+
+
+            firstRender=0;
+            stageEvent=0;
+            countPoint=0;
+
+            
+        }
+        return;  
+        }
+
+        
         m.draw(batch);
 
 
@@ -271,11 +293,17 @@ public class BombKing extends ApplicationAdapter {
 
         keyClicked();
 
+        //System.out.println("1:"+bombPlayer1.bloodCount);
+        //System.out.println(bombPlayer2.bloodCount);
+        if(bombPlayer1.bloodCount*bombPlayer2.bloodCount==0){
+            stageEvent=200;
+        }
         
     }
 
     @Override
     public void dispose() {
+        backgroundMusic.dispose();
         batch.dispose();
         for (Texture tex : m.tileTextures.values()) {
             tex.dispose();

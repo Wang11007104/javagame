@@ -171,9 +171,6 @@ public class BombKingObj {
         x=oriX;
         y=oriY;
         bloodCount=oriBlood;
-        BombKing.firstRender=0;
-        BombKing.stageEvent=0;
-        BombKing.countPoint=0;
     }
 
 

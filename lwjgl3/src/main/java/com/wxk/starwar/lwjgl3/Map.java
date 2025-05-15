@@ -135,6 +135,17 @@ public class Map {
 
 
     public void bomb(int x,int y){
+        
+       double distance1 = new Point(x,y).distance(BombKing.bombPlayer1.x,BombKing.bombPlayer1.y); 
+       if(distance1<=1){
+        BombKing.bombPlayer1.bloodCount--;
+       }
+
+       double distance2 = new Point(x,y).distance(BombKing.bombPlayer2.x,BombKing.bombPlayer2.y); 
+       if(distance2<=1){
+        BombKing.bombPlayer2.bloodCount--;
+       }
+        
        int i1=xyToI(x-1, y);
        int i2=xyToI(x+1, y);
        int i3=xyToI(x, y-1);
