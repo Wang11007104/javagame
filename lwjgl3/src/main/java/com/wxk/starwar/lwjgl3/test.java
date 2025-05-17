@@ -7,6 +7,10 @@ import java.io.File;
 import java.io.IOException;
 
 public class test {
+    
+    /** 
+     * @param args
+     */
     public static void main(String[] args) {
         Map m=new Map("C:\\Users\\User\\OneDrive\\桌面\\image\\bombobj.png");
         for(int i=0; i<m.mapArray.length;i++){
@@ -15,6 +19,10 @@ public class test {
         
     }
 
+    
+    /** 
+     * @param args
+     */
     public static void main1(String[] args) {
         try {
             // 讀取圖片檔案（路徑可換成你自己的圖片）

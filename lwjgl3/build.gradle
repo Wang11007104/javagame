@@ -113,6 +113,19 @@ tasks.register("jarWin") {
   }
 }
 
+
+tasks.withType(Javadoc) {
+    options.encoding = 'UTF-8'
+    options.memberLevel = JavadocMemberLevel.PUBLIC
+    options.author = true
+    options.version = true
+    failOnError = false
+
+    // 加入 classpath，讓 javadoc 找到依賴
+    classpath = sourceSets.main.compileClasspath
+}
+
+
 construo {
     // name of the executable
     name.set(appName)
