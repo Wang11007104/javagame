@@ -103,6 +103,9 @@ public class Map {
             int x = 0, y = 0;
             x = i % 15;
             y = i / 15;
+
+            batch.draw(tileTextures.get(1), x * 48 + 280, 720 - y * 48 - 48, 48, 48);
+
             batch.draw(tileTextures.get(mapArray[i]), x * 48 + 280, 720 - y * 48 - 48, 48, 48);
 
         }
@@ -246,6 +249,12 @@ public class Map {
         if (distance2 <= 1) {
             BombKing.bombPlayer2.bloodCount--;
         }
+
+        double distance3 = new Point(x, y).distance(BombKing.monster1.x, BombKing.monster1.y);
+        if (distance3 <= 1) {
+            BombKing.monster1.bloodCount--;
+        }
+
 
         int i1 = xyToI(x - 1, y);
         int i2 = xyToI(x + 1, y);

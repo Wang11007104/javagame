@@ -48,7 +48,7 @@ public class BombKing extends ApplicationAdapter {
    // private SpriteBatch batch1;
     public static BombKingObj bombPlayer1;
     public static BombKingObj bombPlayer2;
-    private autoMonster monster1;
+    public static autoMonster monster1;
     private autoMonster monster2;
     private autoMonster monster3;
     private Music backgroundMusic;
@@ -243,7 +243,7 @@ public class BombKing extends ApplicationAdapter {
 
         bombPlayer1 = new BombKingObj("player", 1, 1, 48, 48, 9991);
         bombPlayer2 = new BombKingObj("player2", 2, 2, 48, 48, 9992);
-        monster1 = new autoMonster("enemy", 5, 5, 48, 48, Mode,true);
+        monster1 = new autoMonster("enemy", 5, 5, 48, 48, 3,true);
 
         
         allObjs.add(bombPlayer1);
@@ -259,7 +259,16 @@ public class BombKing extends ApplicationAdapter {
         if(countTimer % 60 == 0){
             monster1.monMode = MathUtils.random(0, 3);
             System.out.println("hello");
+            if(monster1.bloodCount<=0){
+                allObjs.remove(monster1);
+                monster1.allRestore();
+            }
         }
+
+        
+
+
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
 
         prints("Player1 Lives:\n"+"O".repeat(Math.max(bombPlayer1.bloodCount,0)),0,600);
@@ -281,7 +290,7 @@ public class BombKing extends ApplicationAdapter {
         if (Gdx.input.justTouched() ) {
             bombPlayer1.allRestore();
             bombPlayer2.allRestore();
-
+            allObjs.add(monster1);
 
             firstRender=0;
             stageEvent=0;
@@ -314,7 +323,7 @@ public class BombKing extends ApplicationAdapter {
 
         //System.out.println("1:"+bombPlayer1.bloodCount);
         //System.out.println(bombPlayer2.bloodCount);
-        if(bombPlayer1.bloodCount*bombPlayer2.bloodCount==0){
+        if(bombPlayer1.bloodCount<=0 || bombPlayer2.bloodCount<=0){
             stageEvent=200;
         }
         
