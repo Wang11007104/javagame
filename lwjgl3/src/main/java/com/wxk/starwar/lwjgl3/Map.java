@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.IntMap;
@@ -46,8 +47,9 @@ public class Map {
 
     try {
         // 讀取圖片檔案（路徑可換成你自己的圖片）
-        File imageFile = new File(fileName);
-        BufferedImage image = ImageIO.read(imageFile);
+        
+        FileHandle imageFile = (Gdx.files.classpath(fileName));
+        BufferedImage image = ImageIO.read(imageFile.read());
         int w=image.getWidth();
         int h=image.getHeight();
         
@@ -117,14 +119,29 @@ public class Map {
 
     }
 
-    public boolean isWalkable(int i){
+    public boolean isWalkable(int x,int y){
+        var walkable=true;
+        int ii=xyToI(x,y);
 
-        int t=mapArray[i];
+        int t=mapArray[ii];
         if(t==1){
-            return true;
+            walkable=true;
         }else{
-            return false;
+            walkable=false;
         }
+
+        if(!walkable) return false;
+
+        for(int i=0;i<BombKing.allObjs.size();i++){
+            BombKingObj obj = BombKing.allObjs.get(i);
+            //obj.update();
+            //System.out.println(obj.showImage);
+            if(obj.monMode==2222 && obj.x==x && obj.y==y){  
+              walkable=false;
+            }
+        }
+
+        return walkable;
     }
 
     public int getTexture(int x,int y){

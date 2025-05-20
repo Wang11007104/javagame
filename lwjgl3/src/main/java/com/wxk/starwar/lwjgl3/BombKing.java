@@ -31,7 +31,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class BombKing extends ApplicationAdapter {
     public static SpriteBatch batch;
-    private BitmapFont font;
+    private static BitmapFont font;
     private Texture firstscreen;
     public static Texture explode;
     private Texture whiteTexture;
@@ -68,6 +68,13 @@ public class BombKing extends ApplicationAdapter {
 
     
 
+    public static void prints(Object s,int x,int y){
+        batch.begin();
+            font.getData().setScale(2f);
+            font.setColor(Color.WHITE);
+            font.draw(batch, (String)s, (float)x, (float)y);
+        batch.end();
+    }
 
 
     public void bombfire(BombKingObj p){
@@ -250,6 +257,9 @@ public class BombKing extends ApplicationAdapter {
     @Override
     public void render() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
+
+        prints("Player1 Lives:\n"+"O".repeat(Math.max(bombPlayer1.bloodCount,0)),0,600);
+        prints("Player2 Lives:\n"+"O".repeat(Math.max(bombPlayer2.bloodCount,0)),0,500);
 
         if (stageEvent == 200) {  // 結算畫面
             batch.begin();

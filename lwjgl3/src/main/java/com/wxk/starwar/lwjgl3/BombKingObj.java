@@ -175,11 +175,9 @@ public class BombKingObj {
 
 
     
-
-
     public boolean moveLeft(){
         vx=2;
-        if(BombKing.m.isWalkable(Map.xyToI((int)(x-1),(int) y))){
+        if(  BombKing.m.isWalkable( (int)(x-1), (int)y )  ){
             x--;
             
             return true;
@@ -189,7 +187,7 @@ public class BombKingObj {
 
     public boolean moveRight(){
         vx=0;
-        if(BombKing.m.isWalkable(Map.xyToI((int)(x+1),(int) y))){
+        if(  BombKing.m.isWalkable( (int)(x+1), (int) y )  ){
             x++;
            // vx=0;
             return true;
@@ -202,7 +200,7 @@ public class BombKingObj {
 
     public boolean moveUp(){
         vx=1;
-        if(BombKing.m.isWalkable(Map.xyToI((int)x,(int) (y-1)))){
+        if(  BombKing.m.isWalkable( (int)(x), (int) (y-1) )  ){
             y--;
            // vx=1;
             return true;
@@ -213,7 +211,7 @@ public class BombKingObj {
 
     public boolean moveDown(){
         vx=3; 
-        if(BombKing.m.isWalkable(Map.xyToI((int)x,(int) (y+1)))){
+        if(  BombKing.m.isWalkable( (int)(x), (int) (y+1) )  ){
             y++;
             
             return true;
@@ -221,6 +219,7 @@ public class BombKingObj {
         return false;
         
     }
+
    
 
 
