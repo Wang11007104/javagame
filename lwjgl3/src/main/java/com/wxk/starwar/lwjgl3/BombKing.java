@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import java.util.ArrayList;
+
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
@@ -52,6 +53,7 @@ public class BombKing extends ApplicationAdapter {
     private autoMonster monster3;
     private Music backgroundMusic;
     private int countTimer=0;
+    private int Mode = 0;
     private ShapeRenderer shapeRenderer1;
     public boolean showImage=true;
     public static ArrayList<BombKingObj> maps = new ArrayList<>();
@@ -99,9 +101,6 @@ public class BombKing extends ApplicationAdapter {
                 
             }
             }, delaySeconds);
-
-
-            
 
 
     }
@@ -235,11 +234,8 @@ public class BombKing extends ApplicationAdapter {
 
         backgroundMusic.setLooping(true);
 
-
-
-
-
         
+
         m=new Map("bombobj.png");
         batch = new SpriteBatch();
         font = new BitmapFont(); // 預設字體
@@ -247,15 +243,23 @@ public class BombKing extends ApplicationAdapter {
 
         bombPlayer1 = new BombKingObj("player", 1, 1, 48, 48, 9991);
         bombPlayer2 = new BombKingObj("player2", 2, 2, 48, 48, 9992);
+        monster1 = new autoMonster("enemy", 5, 5, 48, 48, Mode,true);
 
+        
         allObjs.add(bombPlayer1);
         allObjs.add(bombPlayer2);
+        allObjs.add(monster1);
         
         
     }
 
     @Override
     public void render() {
+        countTimer = (countTimer + 1) % 1000000000;
+        if(countTimer % 60 == 0){
+            monster1.monMode = MathUtils.random(0, 3);
+            System.out.println("hello");
+        }
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
 
         prints("Player1 Lives:\n"+"O".repeat(Math.max(bombPlayer1.bloodCount,0)),0,600);
@@ -296,6 +300,11 @@ public class BombKing extends ApplicationAdapter {
             BombKingObj obj =allObjs.get(i);
             //obj.update();
             //System.out.println(obj.showImage);
+
+            if(obj instanceof autoMonster && countTimer % 60 == 0){
+                obj.update();
+            }
+
             if(obj.showImage){  //利用是否顯示方式關掉圖片
             obj.draw(batch);
             }

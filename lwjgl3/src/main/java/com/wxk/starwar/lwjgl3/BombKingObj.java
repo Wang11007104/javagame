@@ -35,8 +35,8 @@ public class BombKingObj {
         this.textureB = new Texture(texturePath + "B.png");
         this.textureL = new Texture(texturePath + "L.png");
 
-        this.x = startX; // 設定飛船的 X 座標
-        this.y = startY; // 設定飛船的 Y 座標
+        this.x = startX; // 設定人物的 X 座標
+        this.y = startY; // 設定人物的 Y 座標
         oriX = startX;
         oriY = startY;
         this.w = width;
