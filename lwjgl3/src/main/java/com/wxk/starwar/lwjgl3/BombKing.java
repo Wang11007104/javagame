@@ -49,8 +49,8 @@ public class BombKing extends ApplicationAdapter {
     public static BombKingObj bombPlayer1;
     public static BombKingObj bombPlayer2;
     public static autoMonster monster1;
-    private autoMonster monster2;
-    private autoMonster monster3;
+    public static autoMonster monster2;
+    public static autoMonster monster3;
     private Music backgroundMusic;
     private int countTimer=0;
     private int Mode = 0;
@@ -243,13 +243,17 @@ public class BombKing extends ApplicationAdapter {
 
         bombPlayer1 = new BombKingObj("player", 1, 1, 48, 48, 9991);
         bombPlayer2 = new BombKingObj("player2", 2, 2, 48, 48, 9992);
-        monster1 = new autoMonster("enemy", 5, 5, 48, 48, 3,true);
+        monster1 = new autoMonster("enemy", 5, 5, 48, 48, Mode,true);
+        monster2 = new autoMonster("enemy", 8, 8, 48, 48, Mode,true);
+        monster3 = new autoMonster("enemy", 5, 9, 48, 48, Mode,true);
+
 
         
         allObjs.add(bombPlayer1);
         allObjs.add(bombPlayer2);
         allObjs.add(monster1);
-        
+        allObjs.add(monster2);
+        allObjs.add(monster3);
         
     }
 
@@ -258,17 +262,23 @@ public class BombKing extends ApplicationAdapter {
         countTimer = (countTimer + 1) % 1000000000;
         if(countTimer % 60 == 0){
             monster1.monMode = MathUtils.random(0, 3);
-            System.out.println("hello");
+            monster2.monMode = MathUtils.random(0, 3);
+            monster3.monMode = MathUtils.random(0, 3); 
             if(monster1.bloodCount<=0){
                 allObjs.remove(monster1);
                 monster1.allRestore();
             }
+            if(monster2.bloodCount<=0){
+                allObjs.remove(monster2);
+                monster2.allRestore();
+            }
+            if(monster3.bloodCount<=0){
+                allObjs.remove(monster3);
+                monster3.allRestore();
+            }
         }
 
         
-
-
-
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
 
         prints("Player1 Lives:\n"+"O".repeat(Math.max(bombPlayer1.bloodCount,0)),0,600);
@@ -295,21 +305,17 @@ public class BombKing extends ApplicationAdapter {
             firstRender=0;
             stageEvent=0;
             countPoint=0;
-
             
         }
         return;  
         }
 
-        
         m.draw(batch);
-
 
         for(int i=0;i<allObjs.size();i++){
             BombKingObj obj =allObjs.get(i);
             //obj.update();
             //System.out.println(obj.showImage);
-
             if(obj instanceof autoMonster && countTimer % 60 == 0){
                 obj.update();
             }
@@ -326,7 +332,6 @@ public class BombKing extends ApplicationAdapter {
         if(bombPlayer1.bloodCount<=0 || bombPlayer2.bloodCount<=0){
             stageEvent=200;
         }
-        
     }
 
     @Override
@@ -336,6 +341,5 @@ public class BombKing extends ApplicationAdapter {
         for (Texture tex : m.tileTextures.values()) {
             tex.dispose();
         }
-        
     }
 }
