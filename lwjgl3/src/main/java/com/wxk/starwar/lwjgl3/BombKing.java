@@ -238,7 +238,7 @@ public class BombKing extends ApplicationAdapter {
 
         
 
-        m=new Map("bombobj1.png");
+        m=new Map("bombobj3.png");
         batch = new SpriteBatch();
         font = new BitmapFont(); // 預設字體
         font.getData().setScale(2f);
