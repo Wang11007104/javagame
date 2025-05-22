@@ -67,6 +67,7 @@ public class BombKing extends ApplicationAdapter {
     private  int monster3OriBlood;
     public boolean isWin;
     public static Map m;
+    private Texture heartTexture;
 
     
 
@@ -219,6 +220,7 @@ public class BombKing extends ApplicationAdapter {
     
     @Override
     public void create() {
+        heartTexture=new Texture("health.png");
 
 
          backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
@@ -236,25 +238,22 @@ public class BombKing extends ApplicationAdapter {
 
         
 
-        m=new Map("bombobj.png");
+        m=new Map("bombobj1.png");
         batch = new SpriteBatch();
         font = new BitmapFont(); // 預設字體
         font.getData().setScale(2f);
 
         bombPlayer1 = new BombKingObj("player", 1, 1, 48, 48, 9991);
         bombPlayer2 = new BombKingObj("player2", 2, 2, 48, 48, 9992);
-        monster1 = new autoMonster("enemy", 5, 5, 48, 48, Mode,true);
-        monster2 = new autoMonster("enemy", 8, 8, 48, 48, Mode,true);
-        monster3 = new autoMonster("enemy", 5, 9, 48, 48, Mode,true);
-
-
+        monster1 = new autoMonster("enemy", 5, 4, 48, 48, Mode,true);
+        monster2 = new autoMonster("enemy", 5, 4, 48, 48, Mode,true);
+        monster3 = new autoMonster("enemy", 5, 4, 48, 48, Mode,true);
         
         allObjs.add(bombPlayer1);
         allObjs.add(bombPlayer2);
         allObjs.add(monster1);
         allObjs.add(monster2);
         allObjs.add(monster3);
-        
     }
 
     @Override
@@ -263,26 +262,29 @@ public class BombKing extends ApplicationAdapter {
         if(countTimer % 60 == 0){
             monster1.monMode = MathUtils.random(0, 3);
             monster2.monMode = MathUtils.random(0, 3);
-            monster3.monMode = MathUtils.random(0, 3); 
+            monster3.monMode = MathUtils.random(0, 3);
             if(monster1.bloodCount<=0){
                 allObjs.remove(monster1);
                 monster1.allRestore();
             }
-            if(monster2.bloodCount<=0){
+            if(monster1.bloodCount<=0){
                 allObjs.remove(monster2);
                 monster2.allRestore();
             }
-            if(monster3.bloodCount<=0){
+            if(monster1.bloodCount<=0){
                 allObjs.remove(monster3);
                 monster3.allRestore();
             }
         }
 
         
+
+
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
 
-        prints("Player1 Lives:\n"+"O".repeat(Math.max(bombPlayer1.bloodCount,0)),0,600);
-        prints("Player2 Lives:\n"+"O".repeat(Math.max(bombPlayer2.bloodCount,0)),0,500);
+       // prints("Player1 Lives:\n"+"O".repeat(Math.max(bombPlayer1.bloodCount,0)),0,600);
+       // prints("Player2 Lives:\n"+"O".repeat(Math.max(bombPlayer2.bloodCount,0)),0,500);
 
         if (stageEvent == 200) {  // 結算畫面
             batch.begin();
@@ -301,21 +303,27 @@ public class BombKing extends ApplicationAdapter {
             bombPlayer1.allRestore();
             bombPlayer2.allRestore();
             allObjs.add(monster1);
+            allObjs.add(monster2);
+            allObjs.add(monster3);
 
             firstRender=0;
             stageEvent=0;
             countPoint=0;
+
             
         }
         return;  
         }
 
+        
         m.draw(batch);
+
 
         for(int i=0;i<allObjs.size();i++){
             BombKingObj obj =allObjs.get(i);
             //obj.update();
             //System.out.println(obj.showImage);
+
             if(obj instanceof autoMonster && countTimer % 60 == 0){
                 obj.update();
             }
@@ -332,6 +340,19 @@ public class BombKing extends ApplicationAdapter {
         if(bombPlayer1.bloodCount<=0 || bombPlayer2.bloodCount<=0){
             stageEvent=200;
         }
+        
+
+        
+        batch.begin();
+        for (int i = 0; i < bombPlayer1.bloodCount; i++) {
+            batch.draw(heartTexture, 20 + i * 40, 600, 32, 32); // x, y, width, height
+        }
+        for (int i = 0; i < bombPlayer2.bloodCount; i++) {
+            batch.draw(heartTexture, 20 + i * 40, 550, 32, 32); // y 改 550 讓兩排不重疊
+        }
+        batch.end();
+
+
     }
 
     @Override
@@ -341,5 +362,6 @@ public class BombKing extends ApplicationAdapter {
         for (Texture tex : m.tileTextures.values()) {
             tex.dispose();
         }
+        
     }
 }

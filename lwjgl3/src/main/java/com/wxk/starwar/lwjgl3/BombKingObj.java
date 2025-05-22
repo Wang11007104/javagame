@@ -15,7 +15,7 @@ public class BombKingObj {
     // public boolean offImage=false;
     public int monMode;
     public boolean showImage = true;
-    public int bloodCount = 10, oriBlood = 10;// wizaed.blood
+    public int bloodCount = 5, oriBlood = 5;// wizaed.blood
     public float oriX, oriY;
     public static float explodeX, explodeY, explodeCount;
 

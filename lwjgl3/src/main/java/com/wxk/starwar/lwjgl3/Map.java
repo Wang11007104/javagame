@@ -42,7 +42,7 @@ public class Map {
 
         items.put(0xFFFFFF, 1); // 白色
         items.put(0xFF7F27, 2); // 土色
-        items.put(0xFFF200, 3); // yellow
+        items.put(0xFFF200, 3); // 黃色
         items.put(0x3F48CC, 4); // 藍色
         items.put(0x22B14C, 5); // 綠色
 
