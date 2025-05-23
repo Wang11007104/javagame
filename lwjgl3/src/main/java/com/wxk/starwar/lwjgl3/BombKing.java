@@ -55,8 +55,11 @@ public class BombKing extends ApplicationAdapter {
     public boolean isWin;
     public static Map m;
     private Texture heartTexture;
+    private Texture explodeBomb;
     private ImageButton starButton3;
     private ImageButton starButton4;
+    public float oriX;
+    public float oriY;
 
     
 
@@ -70,8 +73,14 @@ public class BombKing extends ApplicationAdapter {
 
 
     public void bombfire(BombKingObj p){
+        oriX=p.x;
+        oriY=p.y;
         autoMonster wizardBullet = new autoMonster("fire", p.x, p.y, 48, 48, 2222,true);
-        
+        autoMonster explodeBomb = new autoMonster("bomb",  oriX, oriY, 48, 48, 222223,true);
+        autoMonster explodeBomb1 = new autoMonster("bomb",  oriX+1, oriY, 48, 48, 222223,true);
+        autoMonster explodeBomb2 = new autoMonster("bomb",  oriX-1, oriY, 48, 48, 222223,true);
+        autoMonster explodeBomb3 = new autoMonster("bomb",  oriX, oriY+1, 48, 48, 222223,true);
+        autoMonster explodeBomb4 = new autoMonster("bomb",  oriX, oriY-1, 48, 48, 222223,true);
         allObjs.add(0, wizardBullet);
 
 
@@ -84,8 +93,34 @@ public class BombKing extends ApplicationAdapter {
 
 
                 Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
+                
                 clickSound.play();
+                
                 allObjs.remove(wizardBullet);
+                
+                allObjs.add(0, explodeBomb);
+                allObjs.add(0, explodeBomb1);
+                allObjs.add(0, explodeBomb2);
+                allObjs.add(0, explodeBomb3);
+                allObjs.add(0, explodeBomb4);
+
+
+                Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                 m.bomb((int)explodeBomb.x,(int) explodeBomb.y);
+                allObjs.remove(explodeBomb);   
+                allObjs.remove(explodeBomb1);
+                allObjs.remove(explodeBomb2); 
+                allObjs.remove(explodeBomb3);
+                allObjs.remove(explodeBomb4);
+
+                
+            }
+            }, (float) 0.5);
+
+
+                
                 
                 
             }
@@ -207,6 +242,7 @@ public class BombKing extends ApplicationAdapter {
 
 
         heartTexture=new Texture("health.png");
+        explodeBomb= new Texture("bomb.png");
 
 
          backgroundMusic = Gdx.audio.newMusic(Gdx.files.internal("bgm.mp3"));
