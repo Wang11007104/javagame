@@ -37,6 +37,8 @@ public class autoMonster extends BombKingObj{
 
         if(monMode==3){
             moveUp();
+          
+            
         }
     }
 }

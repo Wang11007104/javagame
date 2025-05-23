@@ -4,8 +4,10 @@ import java.awt.Point;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Timer;
 
 public class BombKingObj {
     public Texture textureL, textureR, textureF, textureB;
@@ -16,8 +18,11 @@ public class BombKingObj {
     public int monMode;
     public boolean showImage = true;
     public int bloodCount = 5, oriBlood = 5;// wizaed.blood
-    public float oriX, oriY;
+    public  float oriX;
+    public  float oriY;
     public static float explodeX, explodeY, explodeCount;
+    public static float oriX1;
+    public static float oriY2;
 
     /**
      * 建立一個 BombKingObj 物件，初始化其位置、大小、貼圖與模式。
@@ -280,6 +285,69 @@ public class BombKingObj {
         return false;
 
     }
+
+
+
+     public static void bombfire(float x,float y ){
+        oriX1=x;
+        oriY2=y;
+        autoMonster wizardBullet = new autoMonster("fire", x, y, 48, 48, 2222,true);
+        autoMonster explodeBomb = new autoMonster("bomb",  oriX1, oriY2, 48, 48, 222223,true);
+        autoMonster explodeBomb1 = new autoMonster("bomb",  oriX1+1, oriY2, 48, 48, 222223,true);
+        autoMonster explodeBomb2 = new autoMonster("bomb",  oriX1-1, oriY2, 48, 48, 222223,true);
+        autoMonster explodeBomb3 = new autoMonster("bomb",  oriX1, oriY2+1, 48, 48, 222223,true);
+        autoMonster explodeBomb4 = new autoMonster("bomb",  oriX1, oriY2-1, 48, 48, 222223,true);
+        BombKing.allObjs.add(0, wizardBullet);
+
+
+            float delaySeconds = 3f; // 3 秒後執行
+
+            Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+               BombKing. m.bomb((int)wizardBullet.x,(int) wizardBullet.y);
+
+
+                Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
+                
+                clickSound.play();
+                
+                BombKing.allObjs.remove(wizardBullet);
+                
+                BombKing.allObjs.add(0, explodeBomb);
+                BombKing.allObjs.add(0, explodeBomb1);
+                BombKing.allObjs.add(0, explodeBomb2);
+                BombKing.allObjs.add(0, explodeBomb3);
+                BombKing.allObjs.add(0, explodeBomb4);
+
+
+                Timer.schedule(new Timer.Task() {
+            @Override
+            public void run() {
+                 BombKing.m.bomb((int)explodeBomb.x,(int) explodeBomb.y);
+               BombKing. allObjs.remove(explodeBomb);   
+                BombKing.allObjs.remove(explodeBomb1);
+               BombKing. allObjs.remove(explodeBomb2); 
+                BombKing.allObjs.remove(explodeBomb3);
+                BombKing.allObjs.remove(explodeBomb4);
+
+                
+            }
+            }, (float) 0.5);
+
+
+                
+                
+                
+            }
+            }, delaySeconds);
+
+
+    }
+
+    
+    
+    
 
     // 釋放資源
     public void dispose() {

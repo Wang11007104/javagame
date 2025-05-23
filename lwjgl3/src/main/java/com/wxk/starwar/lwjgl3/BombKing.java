@@ -58,8 +58,10 @@ public class BombKing extends ApplicationAdapter {
     private Texture explodeBomb;
     private ImageButton starButton3;
     private ImageButton starButton4;
-    public float oriX;
-    public float oriY;
+    public static float oriX;
+    public static float oriY;
+    public static float oriX1;
+    public static float oriY1;
 
     
 
@@ -71,63 +73,11 @@ public class BombKing extends ApplicationAdapter {
         batch.end();
     }
 
-
-    public void bombfire(BombKingObj p){
-        oriX=p.x;
-        oriY=p.y;
-        autoMonster wizardBullet = new autoMonster("fire", p.x, p.y, 48, 48, 2222,true);
-        autoMonster explodeBomb = new autoMonster("bomb",  oriX, oriY, 48, 48, 222223,true);
-        autoMonster explodeBomb1 = new autoMonster("bomb",  oriX+1, oriY, 48, 48, 222223,true);
-        autoMonster explodeBomb2 = new autoMonster("bomb",  oriX-1, oriY, 48, 48, 222223,true);
-        autoMonster explodeBomb3 = new autoMonster("bomb",  oriX, oriY+1, 48, 48, 222223,true);
-        autoMonster explodeBomb4 = new autoMonster("bomb",  oriX, oriY-1, 48, 48, 222223,true);
-        allObjs.add(0, wizardBullet);
+    
 
 
-            float delaySeconds = 3f; // 3 秒後執行
 
-            Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                m.bomb((int)wizardBullet.x,(int) wizardBullet.y);
-
-
-                Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
-                
-                clickSound.play();
-                
-                allObjs.remove(wizardBullet);
-                
-                allObjs.add(0, explodeBomb);
-                allObjs.add(0, explodeBomb1);
-                allObjs.add(0, explodeBomb2);
-                allObjs.add(0, explodeBomb3);
-                allObjs.add(0, explodeBomb4);
-
-
-                Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                 m.bomb((int)explodeBomb.x,(int) explodeBomb.y);
-                allObjs.remove(explodeBomb);   
-                allObjs.remove(explodeBomb1);
-                allObjs.remove(explodeBomb2); 
-                allObjs.remove(explodeBomb3);
-                allObjs.remove(explodeBomb4);
-
-                
-            }
-            }, (float) 0.5);
-
-
-                
-                
-                
-            }
-            }, delaySeconds);
-
-
-    }
+   
 
 
 
@@ -166,11 +116,13 @@ public class BombKing extends ApplicationAdapter {
 
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-           bombfire(bombPlayer2);
+          // bombfire(bombPlayer2);
+          bombPlayer2.bombfire(bombPlayer2.x,bombPlayer2.y);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)){
-            bombfire(bombPlayer1);
+           // bombfire(bombPlayer1);
+           bombPlayer1.bombfire(bombPlayer1.x,bombPlayer2.y);
         }
 
 
@@ -270,9 +222,9 @@ public class BombKing extends ApplicationAdapter {
         monster1 = new autoMonster("enemy", 4, 4, 48, 48, Mode,true);
         monster2 = new autoMonster("enemy", 8, 10, 48, 48, Mode,true);
         monster3 = new autoMonster("enemy", 12, 8, 48, 48, Mode,true);
-        monster1.bloodCount=1;
-        monster2.bloodCount=1;
-        monster3.bloodCount=1;
+        monster1.bloodCount=10;
+        monster2.bloodCount=10;
+        monster3.bloodCount=10;
 
         allObjs.add(bombPlayer1);
         allObjs.add(bombPlayer2);
@@ -324,6 +276,15 @@ public class BombKing extends ApplicationAdapter {
             monster1.monMode = MathUtils.random(0, 3);
             monster2.monMode = MathUtils.random(0, 3);
             monster3.monMode = MathUtils.random(0, 3);
+            if(allObjs.contains(monster1)){
+            monster1.bombfire(monster1.x, monster1.y);
+            }
+            if(allObjs.contains(monster2)){
+            monster2.bombfire(monster2.x, monster2.y);
+            }
+            if(allObjs.contains(monster3)){
+                monster3.bombfire(monster3.x, monster3.y);
+            }
             if(monster1.bloodCount<=0){
                 allObjs.remove(monster1);
                 monster1.allRestore();
