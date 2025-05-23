@@ -119,7 +119,7 @@ public class BombKing extends ApplicationAdapter {
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.NUMPAD_0)) {
             // bombfire(bombPlayer1);
-            bombPlayer1.bombfire(bombPlayer1.x, bombPlayer2.y);
+            bombPlayer1.bombfire(bombPlayer1.x, bombPlayer1.y);
         }
 
     }
