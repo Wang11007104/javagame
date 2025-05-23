@@ -18,8 +18,8 @@ public class BombKingObj {
     public int monMode;
     public boolean showImage = true;
     public int bloodCount = 5, oriBlood = 5;// wizaed.blood
-    public  float oriX;
-    public  float oriY;
+    public float oriX;
+    public float oriY;
     public static float explodeX, explodeY, explodeCount;
     public static float oriX1;
     public static float oriY2;
@@ -52,87 +52,7 @@ public class BombKingObj {
 
     }
 
-    // 更新飛船位置
-    /**
-     * 更新角色位置、處理碰撞、傷害、爆炸與刪除等邏輯。
-     * 呼叫頻率通常為每幀一次。
-     */
-    /**
-     * 更新角色位置、處理碰撞、傷害、爆炸與刪除等邏輯。
-     * 呼叫頻率通常為每幀一次。
-     */
     public void update() {
-        float unmovX, unmovY;
-        unmovX = x;
-        unmovY = y;
-
-        float deltaTime = Gdx.graphics.getDeltaTime();
-        x += vx * deltaTime;
-        y += vy * deltaTime;
-
-        // 限制邊界
-        if (monMode != 0 && monMode != 1) { // 給超出範圍後刪掉mode0需要出邊界
-            x = Math.max(0, Math.min(x, Gdx.graphics.getWidth() + 80 - textureB.getWidth()));
-            y = Math.max(0, Math.min(y, Gdx.graphics.getHeight() + 100 - textureB.getHeight()));
-        }
-
-        int index = BombKing.allObjs.indexOf(this);
-        // System.out.println(index);
-        // System.err.println();
-        for (int i = index; i < BombKing.allObjs.size(); i++) {
-            // System.err.print(i);
-            BombKingObj obj = BombKing.allObjs.get(i);
-
-            if (this != obj) { // 自己不跟自己碰撞
-                boolean b = collide(this, obj);
-                // System.out.println(b);
-                if (b) {
-
-                    boolean areBullets = (this.monMode < 2 && obj.monMode < 2);
-                    boolean areMonsters = (this.monMode >= 2 && this.monMode < 100 && obj.monMode >= 2
-                            && obj.monMode < 100);
-
-                    if (!(areMonsters)) {
-
-                        if (!(areBullets)) {// 碰撞扣血
-                            this.bloodCount -= 1;
-                            obj.bloodCount--;
-                            if (this.monMode == 1) {
-                                explodeX = this.x;
-                                explodeY = this.y;
-                                explodeCount = 5;
-                            }
-                            if (obj.monMode == 1) {
-                                explodeX = obj.x;
-                                explodeY = obj.y;
-                                explodeCount = 5;
-                            }
-
-                        }
-
-                        if (obj != BombKing.bombPlayer1 && obj.bloodCount <= 0) {
-                            BombKing.allObjs.remove(obj);
-                            BombKing.countPoint++;
-                        }
-                        if (this != BombKing.bombPlayer1 && this.bloodCount <= 0) {
-                            BombKing.allObjs.remove(this);
-                            BombKing.countPoint++;
-                        }
-
-                    }
-
-                    if (BombKing.bombPlayer1.bloodCount == 0) {
-                        BombKing.stageEvent = 100;
-                    }
-
-                    /*
-                     * 不要動
-                     * x=unmovX;
-                     * y=unmovY;
-                     */
-                }
-            }
-        }
 
     }
 
@@ -286,68 +206,68 @@ public class BombKingObj {
 
     }
 
-
-
-     public static void bombfire(float x,float y ){
-        oriX1=x;
-        oriY2=y;
-        autoMonster wizardBullet = new autoMonster("fire", x, y, 48, 48, 2222,true);
-        autoMonster explodeBomb = new autoMonster("bomb",  oriX1, oriY2, 48, 48, 222223,true);
-        autoMonster explodeBomb1 = new autoMonster("bomb",  oriX1+1, oriY2, 48, 48, 222223,true);
-        autoMonster explodeBomb2 = new autoMonster("bomb",  oriX1-1, oriY2, 48, 48, 222223,true);
-        autoMonster explodeBomb3 = new autoMonster("bomb",  oriX1, oriY2+1, 48, 48, 222223,true);
-        autoMonster explodeBomb4 = new autoMonster("bomb",  oriX1, oriY2-1, 48, 48, 222223,true);
+    /**
+     * 觸發炸彈攻擊效果，從指定位置產生子彈，延遲後產生爆炸效果。
+     * 
+     * 此方法會進行以下幾個步驟：
+     * <ol>
+     * <li>在指定位置 x, y 建立一個 "fire" 效果的物件（wizardBullet），立即加入物件清單。</li>
+     * <li>設定延遲 3 秒後，從 wizardBullet 所在位置觸發爆炸。</li>
+     * <li>播放爆炸音效 fire.mp3。</li>
+     * <li>將 wizardBullet 從場上移除，並在中心與四個方向（上、下、左、右）各產生一個爆炸圖像（explodeBomb）。</li>
+     * <li>延遲 0.5 秒後移除所有爆炸圖像。</li>
+     * </ol>
+     * 
+     * @param x 起始爆炸中心點的 X 座標
+     * @param y 起始爆炸中心點的 Y 座標
+     */
+    public static void bombfire(float x, float y) {
+        oriX1 = x;
+        oriY2 = y;
+        autoMonster wizardBullet = new autoMonster("fire", x, y, 48, 48, 2222, true);
+        autoMonster explodeBomb = new autoMonster("bomb", oriX1, oriY2, 48, 48, 222223, true);
+        autoMonster explodeBomb1 = new autoMonster("bomb", oriX1 + 1, oriY2, 48, 48, 222223, true);
+        autoMonster explodeBomb2 = new autoMonster("bomb", oriX1 - 1, oriY2, 48, 48, 222223, true);
+        autoMonster explodeBomb3 = new autoMonster("bomb", oriX1, oriY2 + 1, 48, 48, 222223, true);
+        autoMonster explodeBomb4 = new autoMonster("bomb", oriX1, oriY2 - 1, 48, 48, 222223, true);
         BombKing.allObjs.add(0, wizardBullet);
 
+        float delaySeconds = 3f; // 3 秒後執行
 
-            float delaySeconds = 3f; // 3 秒後執行
-
-            Timer.schedule(new Timer.Task() {
+        Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-               BombKing. m.bomb((int)wizardBullet.x,(int) wizardBullet.y);
-
+                BombKing.m.bomb((int) wizardBullet.x, (int) wizardBullet.y);
 
                 Sound clickSound = Gdx.audio.newSound(Gdx.files.internal("fire.mp3"));
-                
+
                 clickSound.play();
-                
+
                 BombKing.allObjs.remove(wizardBullet);
-                
+
                 BombKing.allObjs.add(0, explodeBomb);
                 BombKing.allObjs.add(0, explodeBomb1);
                 BombKing.allObjs.add(0, explodeBomb2);
                 BombKing.allObjs.add(0, explodeBomb3);
                 BombKing.allObjs.add(0, explodeBomb4);
 
-
                 Timer.schedule(new Timer.Task() {
-            @Override
-            public void run() {
-                 BombKing.m.bomb((int)explodeBomb.x,(int) explodeBomb.y);
-               BombKing. allObjs.remove(explodeBomb);   
-                BombKing.allObjs.remove(explodeBomb1);
-               BombKing. allObjs.remove(explodeBomb2); 
-                BombKing.allObjs.remove(explodeBomb3);
-                BombKing.allObjs.remove(explodeBomb4);
+                    @Override
+                    public void run() {
+                        BombKing.m.bomb((int) explodeBomb.x, (int) explodeBomb.y);
+                        BombKing.allObjs.remove(explodeBomb);
+                        BombKing.allObjs.remove(explodeBomb1);
+                        BombKing.allObjs.remove(explodeBomb2);
+                        BombKing.allObjs.remove(explodeBomb3);
+                        BombKing.allObjs.remove(explodeBomb4);
 
-                
+                    }
+                }, (float) 0.5);
+
             }
-            }, (float) 0.5);
-
-
-                
-                
-                
-            }
-            }, delaySeconds);
-
+        }, delaySeconds);
 
     }
-
-    
-    
-    
 
     // 釋放資源
     public void dispose() {

@@ -15,13 +15,23 @@ public class autoMonster extends BombKingObj{
        // vx=150;}
 
     }
+    /**
+ * 根據物件的 monMode 屬性自動移動角色。
+ * 
+ * - monMode 為 0：向右移動（moveRight）
+ * - monMode 為 1：向下移動（moveDown）
+ * - monMode 為 2：向左移動（moveLeft）
+ * - monMode 為 3：向上移動（moveUp）
+ * 
+ * 此方法根據目前的 monMode 呼叫對應的移動方法，
+ * 達成簡單的自動移動邏輯。
+ */
     public void update(){
        
        float bx = Gdx.graphics.getWidth() - textureF.getWidth();
        float by = Gdx.graphics.getHeight() - textureF.getHeight();
 
 
-      //  System.out.println(SkyWizard.allObjs.size());
 
         if(monMode==0){
             moveRight();
