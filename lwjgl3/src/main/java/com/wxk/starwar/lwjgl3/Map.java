@@ -255,6 +255,16 @@ public class Map {
             BombKing.monster1.bloodCount--;
         }
 
+        double distance4 = new Point(x, y).distance(BombKing.monster2.x, BombKing.monster2.y);
+        if (distance4 <= 1) {
+            BombKing.monster2.bloodCount--;
+        }
+
+        double distance5 = new Point(x, y).distance(BombKing.monster3.x, BombKing.monster3.y);
+        if (distance5 <= 1) {
+            BombKing.monster3.bloodCount--;
+        }
+
 
         int i1 = xyToI(x - 1, y);
         int i2 = xyToI(x + 1, y);

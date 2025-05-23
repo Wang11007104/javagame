@@ -1,30 +1,22 @@
 package com.wxk.starwar.lwjgl3;
 
-import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Timer;
-import com.badlogic.gdx.utils.Timer.Task;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import java.util.ArrayList;
-
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -43,7 +35,6 @@ public class BombKing extends ApplicationAdapter {
     private ImageButton pageButton2;
     private ImageButton starButton1;
     private ImageButton starButton2;
-    private ImageButton starButton3;
     private ShapeRenderer shapeRenderer;
    // private SpriteBatch batch1;
     public static BombKingObj bombPlayer1;
@@ -61,13 +52,11 @@ public class BombKing extends ApplicationAdapter {
     public static ArrayList<BombKingObj> allObjs = new ArrayList<>();
     public static int countPoint=0;
     public static int firstRender=0;
-    private Timer.Task timerHandle;
-    private int previousBloodCount=15;
-    private float bloodLine;
-    private  int monster3OriBlood;
     public boolean isWin;
     public static Map m;
     private Texture heartTexture;
+    private ImageButton starButton3;
+    private ImageButton starButton4;
 
     
 
@@ -91,7 +80,6 @@ public class BombKing extends ApplicationAdapter {
             Timer.schedule(new Timer.Task() {
             @Override
             public void run() {
-                //System.out.println("3 秒到了！執行任務！"+wizardBullet.x);
                 m.bomb((int)wizardBullet.x,(int) wizardBullet.y);
 
 
@@ -178,29 +166,18 @@ public class BombKing extends ApplicationAdapter {
 
         switch(clickedButton){
         case "buttonPlay":
-       // System.out.println("Play" );
-        stageEvent=1;
-        break;
-        case "buttonIns":
-       // System.out.println(" Ins");
-        stageEvent=2;
-        break;
-        case "insSpace1":
-       // System.out.println(" InsSpace1");
-        stageEvent=21;
-        break;
-        case "insUDLR1":
-       // System.out.println(" insUDLR1");
-        stageEvent=0;
-        pageButton.setVisible(false);
-        pageButton1.setVisible(false);
-        break;
-        case "buttonLevel":
-      //  System.out.println(" Cheat");
-        stageEvent=3;
-        break;
+            stageEvent=1;
+            break;
+        case "map1":
+            stageEvent=21;
+            break;
+        case "map2":
+            stageEvent=22;
+            break;
+        case "map3":
+            stageEvent=23;
+            break;        
         
-
         default:
         System.out.println("未知按鈕");
 
@@ -220,6 +197,15 @@ public class BombKing extends ApplicationAdapter {
     
     @Override
     public void create() {
+
+        stage = new Stage();
+        Gdx.input.setInputProcessor(stage);
+        starButton1 = addButton("play.png", 640-250, 360-150, 500, 500, "buttonPlay");
+        starButton2 = addButton("map1.png", 320-100, 50, 100, 100, "map1");
+        starButton3 = addButton("map2.png", 640-100, 50, 100, 100, "map2");
+        starButton4 = addButton("map3.png", 960-100, 50, 100, 100, "map3");
+
+
         heartTexture=new Texture("health.png");
 
 
@@ -244,11 +230,17 @@ public class BombKing extends ApplicationAdapter {
         font.getData().setScale(2f);
 
         bombPlayer1 = new BombKingObj("player", 1, 1, 48, 48, 9991);
-        bombPlayer2 = new BombKingObj("player2", 2, 2, 48, 48, 9992);
+        bombPlayer2 = new BombKingObj("player2", 13, 13, 48, 48, 9992);
         monster1 = new autoMonster("enemy", 5, 4, 48, 48, Mode,true);
         monster2 = new autoMonster("enemy", 5, 4, 48, 48, Mode,true);
         monster3 = new autoMonster("enemy", 5, 4, 48, 48, Mode,true);
-        
+        monster1.bloodCount=1;
+        monster2.bloodCount=1;
+        monster3.bloodCount=1;
+
+
+
+
         allObjs.add(bombPlayer1);
         allObjs.add(bombPlayer2);
         allObjs.add(monster1);
@@ -258,6 +250,42 @@ public class BombKing extends ApplicationAdapter {
 
     @Override
     public void render() {
+
+        
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
+
+        if(stageEvent == 21){
+           m=new Map("bombobj1.png");
+           stageEvent=0; 
+        }
+
+        if(stageEvent == 22){
+           m=new Map("bombobj2.png");
+           stageEvent=0; 
+        }
+
+        if(stageEvent == 23){
+           m=new Map("bombobj3.png");
+           stageEvent=0; 
+        }
+        
+
+
+
+        if (stageEvent == 0) { // 開始畫面
+            starButton1.setVisible(true);
+            starButton2.setVisible(true);
+        
+
+            stage.act(Gdx.graphics.getDeltaTime());
+            stage.draw();
+        }
+
+        if(stageEvent==1){
+            starButton1.setVisible(false);
+            starButton2.setVisible(false);
+
+
         countTimer = (countTimer + 1) % 1000000000;
         if(countTimer % 60 == 0){
             monster1.monMode = MathUtils.random(0, 3);
@@ -267,11 +295,11 @@ public class BombKing extends ApplicationAdapter {
                 allObjs.remove(monster1);
                 monster1.allRestore();
             }
-            if(monster1.bloodCount<=0){
+            if(monster2.bloodCount<=0){
                 allObjs.remove(monster2);
                 monster2.allRestore();
             }
-            if(monster1.bloodCount<=0){
+            if(monster3.bloodCount<=0){
                 allObjs.remove(monster3);
                 monster3.allRestore();
             }
@@ -281,39 +309,12 @@ public class BombKing extends ApplicationAdapter {
 
 
 
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT); // 清除畫面
+        
 
        // prints("Player1 Lives:\n"+"O".repeat(Math.max(bombPlayer1.bloodCount,0)),0,600);
        // prints("Player2 Lives:\n"+"O".repeat(Math.max(bombPlayer2.bloodCount,0)),0,500);
 
-        if (stageEvent == 200) {  // 結算畫面
-            batch.begin();
-            font.getData().setScale(3f);
-            font.setColor(Color.WHITE);
         
-            font.draw(batch, "GAME OVER", 180, 600);
-        
-            font.getData().setScale(2f);
-            font.draw(batch, "Remaining player1 BLOOD: " + bombPlayer1.bloodCount, 200, 500);
-            font.draw(batch, "Remaining player2 BLOOD: " + bombPlayer2.bloodCount, 200, 400);
-            font.draw(batch, "Use mouse to click anywhere to return", 60, 200);
-            batch.end();
-
-        if (Gdx.input.justTouched() ) {
-            bombPlayer1.allRestore();
-            bombPlayer2.allRestore();
-            allObjs.add(monster1);
-            allObjs.add(monster2);
-            allObjs.add(monster3);
-
-            firstRender=0;
-            stageEvent=0;
-            countPoint=0;
-
-            
-        }
-        return;  
-        }
 
         
         m.draw(batch);
@@ -343,14 +344,51 @@ public class BombKing extends ApplicationAdapter {
         
 
         
+        prints("player1", 20, 700);
+        prints("player2", 1025, 700);
+
+
+
+
+
         batch.begin();
         for (int i = 0; i < bombPlayer1.bloodCount; i++) {
             batch.draw(heartTexture, 20 + i * 40, 600, 32, 32); // x, y, width, height
         }
         for (int i = 0; i < bombPlayer2.bloodCount; i++) {
-            batch.draw(heartTexture, 20 + i * 40, 550, 32, 32); // y 改 550 讓兩排不重疊
+            batch.draw(heartTexture, 1025 + i * 40, 600, 32, 32); // y 改 550 讓兩排不重疊
         }
         batch.end();
+    }
+    if (stageEvent == 200) {  // 結算畫面
+            batch.begin();
+            font.getData().setScale(3f);
+            font.setColor(Color.WHITE);
+        
+            font.draw(batch, "GAME OVER", 400, 600);
+        
+            font.getData().setScale(2f);
+            font.draw(batch, "Remaining player1 BLOOD: " + bombPlayer1.bloodCount, 400, 500);
+            font.draw(batch, "Remaining player2 BLOOD: " + bombPlayer2.bloodCount, 400, 400);
+            font.draw(batch, "Use mouse to click anywhere to return", 400, 200);
+            batch.end();
+
+        if (Gdx.input.justTouched() ) {
+            bombPlayer1.allRestore();
+            bombPlayer2.allRestore();
+            allObjs.add(monster1);
+            allObjs.add(monster2);
+            allObjs.add(monster3);
+
+            firstRender=0;
+            stageEvent=0;
+            countPoint=0;
+
+            
+        }
+        return;  
+        }
+
 
 
     }

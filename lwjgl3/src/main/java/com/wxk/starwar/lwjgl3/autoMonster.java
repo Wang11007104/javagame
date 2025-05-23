@@ -10,22 +10,6 @@ public class autoMonster extends BombKingObj{
         oriX=startX;
         oriY=startY;
         
-        switch (monMode) {
-            case 0:
-                bloodCount=1;
-                break;
-            case 1:
-                bloodCount=1;
-                break;  
-            case 2:
-                bloodCount=3;
-                break;  
-            case 3:
-                bloodCount=2;
-                break;
-            default:
-                break;
-        }
         oriBlood=bloodCount;
         //if(monMode==1){
        // vx=150;}
