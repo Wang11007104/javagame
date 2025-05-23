@@ -394,6 +394,5 @@ public class BombKing extends ApplicationAdapter {
         for (Texture tex : m.tileTextures.values()) {
             tex.dispose();
         }
-        
     }
 }
