@@ -267,15 +267,12 @@ public class BombKing extends ApplicationAdapter {
 
         bombPlayer1 = new BombKingObj("player", 1, 1, 48, 48, 9991);
         bombPlayer2 = new BombKingObj("player2", 13, 13, 48, 48, 9992);
-        monster1 = new autoMonster("enemy", 5, 4, 48, 48, Mode,true);
-        monster2 = new autoMonster("enemy", 5, 4, 48, 48, Mode,true);
-        monster3 = new autoMonster("enemy", 5, 4, 48, 48, Mode,true);
+        monster1 = new autoMonster("enemy", 4, 4, 48, 48, Mode,true);
+        monster2 = new autoMonster("enemy", 8, 10, 48, 48, Mode,true);
+        monster3 = new autoMonster("enemy", 12, 8, 48, 48, Mode,true);
         monster1.bloodCount=1;
         monster2.bloodCount=1;
         monster3.bloodCount=1;
-
-
-
 
         allObjs.add(bombPlayer1);
         allObjs.add(bombPlayer2);
