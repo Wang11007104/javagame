@@ -34,7 +34,72 @@ java -jar bombKing-1.0.0.jar
 
 ## 檔案結構
 ```
+javagame\lwjgl3/
+ ┣ 📂build
+ ┃ ┣ 📂libs
+ ┃ ┃ ┗ 📜bombKing-1.0.0.jar
+ ┣ 📂src
+ ┃ ┗ 📂main
+ ┃ ┃ ┣ 📂java
+ ┃ ┃ ┃ ┗ 📂com
+ ┃ ┃ ┃ ┃ ┗ 📂wxk
+ ┃ ┃ ┃ ┃ ┃ ┗ 📂bombKing
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂lwjgl3
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜autoMonster.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DesktopLauncher.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BombKing.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜BombKingObj.java
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Map.java
+ ┃ ┣ 📂docs
+ ┃ ┃ ┗ 📂javadoc
+ ┃ ┃ ┃ ┣ 📂com
+ ┃ ┃ ┃ ┃ ┗ 📂wxk
+ ┃ ┃ ┃ ┃ ┃ ┗ 📂bombKing
+ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📂lwjgl3
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜autoMonster.html
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜DesktopLauncher.html
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BombKing.html
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜BombKingObj.html
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┣ 📜package-tree.html
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜package-summary.html
+ ┃ ┃ ┃ ┃ ┃ ┃ ┃ ┗ 📜Map.html
 
+javagame\assets/
+ ┣ 📜assets.txt
+ ┣ 📜bgm.mp3
+ ┣ 📜fire.mp3
+ ┣ 📜bomb.png
+ ┣ 📜bombB.png
+ ┣ 📜bombF.png
+ ┣ 📜bombL.png
+ ┣ 📜bombR.png
+ ┣ 📜bombobj1.ini
+ ┣ 📜bombobj2.png
+ ┣ 📜bombobj3.png
+ ┣ 📜box.png
+ ┣ 📜enemyB.mp3
+ ┣ 📜enemyF.png
+ ┣ 📜enemyL.png
+ ┣ 📜enemyR.png
+ ┣ 📜explode.png
+ ┣ 📜fireR.png
+ ┣ 📜health.png
+ ┣ 📜house.png
+ ┣ 📜road.png
+ ┣ 📜tree.png
+ ┣ 📜wall.png
+ ┣ 📜map1.png
+ ┣ 📜map2.png
+ ┣ 📜map3.png
+ ┣ 📜play.png
+ ┣ 📜playerB.png
+ ┣ 📜playerF.png
+ ┣ 📜playerL.png
+ ┣ 📜playerR.png
+ ┣ 📜player2B.png
+ ┣ 📜player2F.png
+ ┣ 📜player2L.png
+ ┣ 📜player2R.png
 ```
 
 ## 一、BombKing 基礎功能列表
