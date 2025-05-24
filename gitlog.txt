@@ -1,0 +1,206 @@
+commit 545e0c921d6abafe9f3bd127e8c3da2ecba2edec
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Fri May 23 23:57:57 2025 +0800
+
+    fix the error of param
+
+commit df1d207e43cfff0470c0bc1720102a5a4fe9aea4
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Fri May 23 23:15:45 2025 +0800
+
+    doc&jar
+
+commit ecc2dd5987573d0da2f3bb1221d97570d2f9c87c
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Fri May 23 23:15:08 2025 +0800
+
+    Update .gitignore
+
+commit cbd330099750e408cfa63166c5aeed18c7825965
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Fri May 23 23:04:42 2025 +0800
+
+    doc&newbgm
+
+commit 6bbedebb324316c9f63bd37b04ee5cbd33f92860
+Merge: fa0b877 c50084b
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Fri May 23 22:05:45 2025 +0800
+
+    Merge branch 'main' of https://github.com/Wang11007104/javagame
+
+commit fa0b877d64b3b331beafec063d69e1e9c535d929
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Fri May 23 22:05:41 2025 +0800
+
+    automonster can attack
+
+commit c50084b3b00467e23dafc3215c0f5e68e4997c3b
+Author: Banana-pixel-bot <cron20050314@gmail.com>
+Date:   Fri May 23 21:00:27 2025 +0800
+
+    地圖、音效
+
+commit f2edaa423ba432e26c9b39106a7b3cc72f86a345
+Merge: 2de2ef5 49514e2
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Fri May 23 20:44:13 2025 +0800
+
+    Merge branch 'main' of https://github.com/Wang11007104/javagame
+
+commit 2de2ef56c73e51cec8bc33ffb2ca6bc48ab75926
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Fri May 23 20:44:09 2025 +0800
+
+    explodeFBLR
+
+commit 49514e21dea7e4f15af2b3b39636f8a606f458af
+Author: Banana-pixel-bot <cron20050314@gmail.com>
+Date:   Fri May 23 20:16:14 2025 +0800
+
+    改位置
+
+commit afa45d6da51b2559e407da4675c8caac29fedefd
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Fri May 23 19:49:33 2025 +0800
+
+    userMenu&fixbug
+
+commit 08111d2a6d794b9463fa11078ea079d36d5a6e6c
+Author: Banana-pixel-bot <cron20050314@gmail.com>
+Date:   Fri May 23 01:15:16 2025 +0800
+
+    修改地圖
+
+commit bf386af944650be3f3c8b1a9b6efb351139af999
+Author: Banana-pixel-bot <cron20050314@gmail.com>
+Date:   Fri May 23 01:05:02 2025 +0800
+
+    地圖、血量圖示
+
+commit 72bb1c2ed6ff43ccdda75d1f70c8008d0be560f8
+Author: Banana-pixel-bot <cron20050314@gmail.com>
+Date:   Wed May 21 22:18:22 2025 +0800
+
+    增加敵人
+
+commit 304ba4997a27a857079c46bff81e30f48fb59f3a
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Wed May 21 00:01:27 2025 +0800
+
+    monsterRecycle&bmobpic5/21
+
+commit 6d8360d1341953ddf8c9f24c0d85c45e8fcdbf42
+Author: Banana-pixel-bot <cron20050314@gmail.com>
+Date:   Tue May 20 23:30:23 2025 +0800
+
+    新增敵人(隨機方向)
+
+commit f4f2ae7c24323f5509b95f4ffc5476957303d75d
+Author: Banana-pixel-bot <cron20050314@gmail.com>
+Date:   Tue May 20 18:40:47 2025 +0800
+
+    路面
+
+commit 2a6bf616a3ea0a8aa95ca959eac38de5e12a5bc0
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Tue May 20 16:45:02 2025 +0800
+
+    docForPartner
+
+commit 5244375b965f91e953dd7207998bd290e912ac52
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Tue May 20 14:15:03 2025 +0800
+
+    cantCrossBomb&printHP_5/20
+
+commit 13d063e1e91ea9a4a5f6ed83e551decd1f3121a0
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Sun May 18 05:46:23 2025 +0800
+
+    5/18
+
+commit e97d0c8c04089a27aee495a579c9249a095217b6
+Merge: a354cd3 b8a23e5
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Thu May 15 22:46:01 2025 +0800
+
+    Merge branch 'main' of https://github.com/Wang11007104/javagame
+
+commit a354cd320f060ed5fb47c924a367895ba05f7958
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Thu May 15 22:45:58 2025 +0800
+
+    logic all set 5/15
+
+commit b8a23e53926484c027ba96eafa6ed1cc960998f0
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Thu May 15 08:25:30 2025 +0800
+
+    Update README.md
+
+commit eb4881ed00eac8d54ce7d24ae5bb5b120ac83ae5
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Wed May 14 00:10:34 2025 +0800
+
+    5/14facing&removeBomb
+
+commit d177e3d0b58ee4f2a6b0186cad57e18ab6c371fb
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Tue May 13 22:29:17 2025 +0800
+
+    5/13.1
+
+commit e61e70ee27861503621634d8504a1335fdbdfde8
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Tue May 13 22:22:08 2025 +0800
+
+    5/13
+
+commit 02942412367bd67e6db8a176713e22bdc967097f
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Tue May 13 20:39:54 2025 +0800
+
+    5/13
+
+commit 6bd0c784c587700c8449a8daaf304f024df1bcc6
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Mon May 12 01:55:03 2025 +0800
+
+    move&bomb5/12
+
+commit 1c70a7108a458862022853501ee9e67f9cbf4f70
+Author: Banana-pixel-bot <cron20050314@gmail.com>
+Date:   Fri May 9 23:25:33 2025 +0800
+
+    Add files via upload
+
+commit ef799da2cefe67860a130eefaf523a3fd37748b7
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Wed May 7 06:16:06 2025 +0800
+
+    5/7 map
+
+commit 0a019986be63bce0ba3e0ebf2c533bb8978ca7ab
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Mon May 5 04:30:39 2025 +0800
+
+    待改
+
+commit 41bc2b727c93f7b230431ee53ad225e88140e2c4
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Mon Apr 28 16:47:35 2025 +0800
+
+    4/28returntostart
+
+commit a66247dfa74cca5584ca9cbe5257960ce55739e3
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Sat Apr 26 22:27:25 2025 +0800
+
+    模板
+
+commit f28af0ebd15e506583620634d9d0d58fc682d64b
+Author: Wang11007104 <shizhuc400@gmail.com>
+Date:   Sat Apr 26 22:15:05 2025 +0800
+
+    建設環境

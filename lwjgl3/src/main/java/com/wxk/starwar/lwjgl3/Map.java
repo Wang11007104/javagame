@@ -69,14 +69,9 @@ public class Map {
             image.getRGB(0, 0, w, h, mapArray, 0, w);
             for (int i = 0; i < mapArray.length; i++) {
                 int rgb = mapArray[i];
-                int r = (rgb >> 16) & 0xFF;
-                int g = (rgb >> 8) & 0xFF;
-                int b = rgb & 0xFF;
-                rgb = rgb & 0xffffff;
+                
+                rgb = rgb & 0xffffff;//限定需要的RGB
                 mapArray[i] = items.get(rgb, 0);
-                // System.out.printf("Pixel %d: R=%d, G=%d, B=%d%n", i, r, g, b);
-
-                // System.out.println(items.get(rgb, 0));
             }
 
         } catch (IOException e) {
