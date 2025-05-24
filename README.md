@@ -176,46 +176,108 @@ direction TB
     }
 
     class BombKing {
-	    +static BombKingObj bombPlayer1
-	    +static BombKingObj bombPlayer2
-	    +static autoMonster monster1
-	    +static autoMonster monster2
-	    +static autoMonster monster3
-	    +static ArrayList~BombKingObj~ allObjs
-    }
+    <<ApplicationAdapter>>
+    - SpriteBatch batch
+    - BitmapFont font
+    - Texture firstscreen
+    - Texture whiteTexture
+    - int stageEvent
+    - Stage stage
+    - ImageButton pageButton
+    - ImageButton pageButton1
+    - ImageButton pageButton2
+    - ImageButton starButton1
+    - ImageButton starButton2
+    - ImageButton starButton3
+    - ImageButton starButton4
+    - ShapeRenderer shapeRenderer
+    - ShapeRenderer shapeRenderer1
+    - Music backgroundMusic
+    - Texture heartTexture
+    - Texture explodeBomb
+    - int countTimer
+    - int Mode
+    - boolean showImage
+    - boolean isWin
+    - static ArrayList~BombKingObj~ maps
+    - static ArrayList~BombKingObj~ bombs
+    - static ArrayList~BombKingObj~ allObjs
+    - static int countPoint
+    - static int firstRender
+    - static float oriX, oriY, oriX1, oriY1
+    - static BombKingObj bombPlayer1
+    - static BombKingObj bombPlayer2
+    - static autoMonster monster1
+    - static autoMonster monster2
+    - static autoMonster monster3
+    - static Map m
+    + void create()
+    + void render()
+    + void dispose()
+    + static void prints(Object s, int x, int y)
+    + void keyClicked()
+    + ImageButton addButton(String picPath, int x, int y, int w, int h, String buttonName)
+}
 
-    class BombKingObj {
-	    +float x
-	    +float y
-	    +int monMode
-	    +int bloodCount
-	    +Texture textureF
-	    +void moveRight()
-	    +void moveLeft()
-	    +void moveUp()
-	    +void moveDown()
+   class BombKingObj {
+        +Texture textureL
+        +Texture textureR
+        +Texture textureF
+        +Texture textureB
+        +float x
+        +float y
+        +float w
+        +float h
+        +float vx
+        +float vy
+        +int monMode
+        +boolean showImage
+        +int bloodCount
+        +int oriBlood
+        +float oriX
+        +float oriY
+        +static float explodeX
+        +static float explodeY
+        +static float explodeCount
+        +static float oriX1
+        +static float oriY2
+        +Direction direction
+        +BombKingObj(String texturePath, float startX, float startY, float width, float height, int monMode)
+        +void update()
+        +void draw(SpriteBatch batch)
+        +boolean collide(BombKingObj obj1, BombKingObj obj2)
+        +void allRestore()
+        +boolean moveLeft()
+        +boolean moveRight()
+        +boolean moveUp()
+        +boolean moveDown()
+        +static void bombfire(float x, float y)
+        +void dispose()
     }
 
     class autoMonster {
-	    +update()
+        + autoMonster(texturePath, startX, startY, width, height, monMode, showImage)
+        + update() : void
     }
 
     class Map {
-	    +draw(SpriteBatch batch)
-	    +isWalkable(int x, int y)
-	    +isBombable(int i)
-	    +bomb(int x, int y)
-	    +getTexture(int x, int y)
-	    +static xyToI(int x, int y) int
-	    +static realXY(int x, int y) Point
+        - IntIntMap items
+        - int[] mapArray
+        - IntMap~Texture~ tileTextures
+        + Map(String fileName)
+        + void draw(SpriteBatch batch)
+        + static int xyToI(int x, int y)
+        + static Point realXY(int x, int y)
+        + boolean isBombable(int i)
+        + boolean isWalkable(int x, int y)
+        + int getTexture(int x, int y)
+        + void bomb(int x, int y)
     }
 
     DesktopLauncher-->BombKing
     BombKing --> BombKingObj
     BombKingObj --> autoMonster
     BombKing --> Map
-
-
 ```
 ## 三、流程圖 (Flow Chart)
 
