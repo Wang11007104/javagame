@@ -32,6 +32,11 @@ cd (exe資料夾存放路徑)
 java -jar bombKing-1.0.0.jar
 ```
 
+## 檔案結構
+```
+
+```
+
 ## 一、BombKing 基礎功能列表
 
 此文件列出實作 BombKing 遊戲的 12 項基本功能模組，供遊戲開發規劃與專案分工參考。
@@ -92,4 +97,175 @@ java -jar bombKing-1.0.0.jar
 ### ✅ 10. 主選單與重新開始功能
 - 顯示封面畫面，提供開始遊戲、關卡選項。
 - Game Over 顯示相應畫面，支援重新開始或返回主選單。
+## 二、UML 類別圖 (Class Diagram)
+
+```mermaid
+classDiagram
+direction TB
+    class DesktopLauncher {
+	    +main(String[] args)
+    }
+
+    class BombKing {
+	    +static BombKingObj bombPlayer1
+	    +static BombKingObj bombPlayer2
+	    +static autoMonster monster1
+	    +static autoMonster monster2
+	    +static autoMonster monster3
+	    +static ArrayList~BombKingObj~ allObjs
+    }
+
+    class BombKingObj {
+	    +float x
+	    +float y
+	    +int monMode
+	    +int bloodCount
+	    +Texture textureF
+	    +void moveRight()
+	    +void moveLeft()
+	    +void moveUp()
+	    +void moveDown()
+    }
+
+    class autoMonster {
+	    +update()
+    }
+
+    class Map {
+	    +draw(SpriteBatch batch)
+	    +isWalkable(int x, int y)
+	    +isBombable(int i)
+	    +bomb(int x, int y)
+	    +getTexture(int x, int y)
+	    +static xyToI(int x, int y) int
+	    +static realXY(int x, int y) Point
+    }
+
+    DesktopLauncher-->BombKing
+    BombKing --> BombKingObj
+    BombKingObj --> autoMonster
+    BombKing --> Map
+
+
+```
+## 三、流程圖 (Flow Chart)
+
+```mermaid
+flowchart TD
+    Start["遊戲開始（render()）"] --> ClearScreen["清除畫面"]
+
+    ClearScreen --> ShowMenu["顯示開始畫面與選擇地圖按鈕"]
+
+    ShowMenu --> ClickPlay["點擊『開始遊戲』按鈕"]
+    ShowMenu --> ClickMap1["點擊『地圖1』按鈕"]
+    ShowMenu --> ClickMap2["點擊『地圖2』按鈕"]
+    ShowMenu --> ClickMap3["點擊『地圖3』按鈕"]
+
+    ClickMap1 --> LoadMap1["載入 bombobj1.png 地圖"]
+    ClickMap2 --> LoadMap2["載入 bombobj2.png 地圖"]
+    ClickMap3 --> LoadMap3["載入 bombobj3.png 地圖"]
+
+    LoadMap1 --> BackToMenu
+    LoadMap2 --> BackToMenu
+    LoadMap3 --> BackToMenu
+    BackToMenu --> ShowMenu
+
+    ClickPlay --> GameStart["進入遊戲進行畫面"]
+
+    GameStart --> HideButtons["隱藏所有選單按鈕"]
+    HideButtons --> UpdateTimer["計時器每幀累加"]
+
+    UpdateTimer --> Check60Frames{"每 60 幀"}
+    Check60Frames -- 是 --> MonsterAction["怪物隨機變更行為並放炸彈"]
+    Check60Frames -- 否 --> 跳過怪物行為更新
+
+    MonsterAction --> 跳過怪物行為更新
+    跳過怪物行為更新 --> UpdateAllObjs["更新與繪製所有物件"]
+    UpdateAllObjs --> HandleInput["處理玩家鍵盤操作"]
+
+    HandleInput --> CheckPlayerDead{"任一玩家死亡？"}
+    CheckPlayerDead -- 是 --> GameOver
+    CheckPlayerDead -- 否 --> ShowUI["顯示玩家生命值與資訊"]
+    ShowUI --> NextFrame["進入下一幀"]
+    NextFrame --> GameStart
+
+    GameOver --> ShowResult["顯示 GAME OVER 與剩餘血量"]
+    ShowResult --> WaitForTouch{"玩家點擊螢幕？"}
+
+    WaitForTouch -- 是 --> ResetGame["重置玩家、怪物與計分"]
+    ResetGame --> ShowMenu
+
+    WaitForTouch -- 否 --> StayGameOver["維持結算畫面"]
+    StayGameOver --> WaitForTouch
+
+
+```
+## 四、序列圖 (Sequence Diagram)
+
+```mermaid
+sequenceDiagram
+    participant Game as Game (render)
+    participant Map as Map
+    participant Stage as Stage
+    participant Batch as SpriteBatch
+    participant Player1 as bombPlayer1
+    participant Player2 as bombPlayer2
+    participant Monster1 as monster1
+    participant Monster2 as monster2
+    participant Monster3 as monster3
+    participant Input as Gdx.input
+
+    Game->>Game: clear screen
+    alt stageEvent == 21 or 22 or 23
+        Game->>Map: new Map("bombobjX.png")
+        Game->>Game: stageEvent = 0
+    end
+
+    alt stageEvent == 0
+        Game->>Stage: set starButton visible
+        Game->>Stage: stage.act(deltaTime)
+        Game->>Stage: stage.draw()
+    else stageEvent == 1
+        Game->>Stage: set starButton invisible
+        loop every frame (countTimer)
+            Monster1->>Monster1: change monMode randomly
+            Monster2->>Monster2: change monMode randomly
+            Monster3->>Monster3: change monMode randomly
+
+            Monster1->>Monster1: bombfire()
+            Monster2->>Monster2: bombfire()
+            Monster3->>Monster3: bombfire()
+
+            alt monster1.bloodCount <= 0
+                Game->>Game: remove monster1
+            end
+            alt monster2.bloodCount <= 0
+                Game->>Game: remove monster2
+            end
+            alt monster3.bloodCount <= 0
+                Game->>Game: remove monster3
+            end
+        end
+        Game->>Map: draw(batch)
+        loop allObjs
+            obj->>obj: update() if autoMonster and countTimer % 60 == 0
+            obj->>obj: draw(batch) if showImage
+        end
+        Game->>Game: keyClicked()
+        alt player bloodCount <= 0
+            Game->>Game: stageEvent = 200
+        end
+        Game->>Batch: draw hearts for players
+    else stageEvent == 200
+        Game->>Batch: draw GAME OVER screen
+        Input->>Game: check justTouched()
+        alt touched
+            Game->>Game: restore players and monsters
+            Game->>Game: reset counters and stageEvent
+        end
+    end
+
+
+
+```
 
