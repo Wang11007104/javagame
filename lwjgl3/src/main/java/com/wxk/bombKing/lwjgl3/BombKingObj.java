@@ -49,7 +49,6 @@ public class BombKingObj {
         this.monMode = monMode;
         vx = 0;
         vy = 0;
-
     }
 
     public void update() {
