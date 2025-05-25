@@ -400,14 +400,14 @@ sequenceDiagram
 
 ```
 ## 五、與AI互動關係
--1.chatGPT
--Swing與lib GDX 的Timer使用差別
--如何使gradle(主要使用到的功能:編譯程式越過vscode內建編譯、產生javadoc、產出jar檔)
--java套件安裝Javadoc Comment Generator
--下載git套件並產出gitlog
--流程圖判斷式完整性
--產出人物圖片
--2.samsung繪圖智慧助理
--產出部分按鈕與開始圖片等等
--3.suno AI
--產出背景音樂
+- 1.chatGPT
+- Swing與lib GDX 的Timer使用差別
+- 如何使gradle(主要使用到的功能:編譯程式越過vscode內建編譯、產生javadoc、產出jar檔)
+- java套件安裝Javadoc Comment Generator
+- 下載git套件並產出gitlog
+- 流程圖判斷式完整性
+- 產出人物圖片
+- 2.samsung繪圖智慧助理
+- 產出部分按鈕與開始圖片等等
+- 3.suno AI
+- 產出背景音樂
