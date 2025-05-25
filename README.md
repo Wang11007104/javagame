@@ -3,11 +3,11 @@
 - 分工說明：
 - 王星凱:BombKing 基礎功能列表:1、2、5、6、8、10
 - 許育銘:BombKing 基礎功能列表:3、4、7、9
-- [報告影片連結]()
+- [報告影片連結](https://www.youtube.com/watch?v=y6POWcfspfI)
 - [jar 檔](https://github.com/Wang11007104/javagame/tree/main/lwjgl3/build/libs)
 - [javadoc文件](https://github.com/Wang11007104/javagame/tree/main/lwjgl3/build/docs/javadoc)
 - [commit 歷史紀錄](https://github.com/Wang11007104/javagame/blob/main/gitlog.txt)
-- [報告簡報]()
+- [報告簡報](https://www.canva.com/design/DAGoQ80296c/IGiCKB-IOV7M1KlmkizKNw/view?utm_content=DAGoQ80296c&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=he19eaaa1bc)
 
 
 ## 遊戲說明
