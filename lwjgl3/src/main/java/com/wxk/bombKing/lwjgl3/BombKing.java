@@ -1,4 +1,4 @@
-package com.wxk.starwar.lwjgl3;
+package com.wxk.bombKing.lwjgl3;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
